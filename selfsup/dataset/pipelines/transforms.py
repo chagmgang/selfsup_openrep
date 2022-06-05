@@ -1,5 +1,5 @@
 import random
-from typing import Tuple
+from typing import List, Tuple
 
 import cv2
 import numpy as np
@@ -16,6 +16,39 @@ cv2_interp_codes = {
     'area': cv2.INTER_AREA,
     'lanczos': cv2.INTER_LANCZOS4
 }
+
+
+@PIPELINES.register_module()
+class Normalize(object):
+
+    def __init__(self, mean: List[float], std: List[float], to_rgb=True):
+
+        self.mean = np.array(mean)
+        self.std = np.array(std)
+        self.to_rgb = to_rgb
+
+    def normalize(self, img, mean, std, to_rgb):
+
+        mean = np.float64(mean.reshape(1, -1))
+        stdinv = 1 / np.float64(std.reshape(1, -1))
+        if to_rgb:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        cv2.subtract(img, mean, img)  # inplace
+        cv2.multiply(img, stdinv, img)  # inplace
+        return img
+
+    def __call__(self, results):
+
+        img = results['img']
+        img = img.copy().astype(np.float32)
+        img = self.normalize(img, self.mean, self.std, self.to_rgb)
+        results['img'] = img
+        return results
+
+    def __repr__(self):
+        repr_str = self.__class__.__name__
+        repr_str += f'(mean={self.mean}, std={self.std}, to_rgb={self.to_rgb})'
+        return repr_str
 
 
 @PIPELINES.register_module()
@@ -97,7 +130,7 @@ class PhotoMetricDistortion(object):
         """Hue distortion."""
         if np.random.randint(2):
             img = bgr2hsv(img)
-            img[:, :, 0] = (img[:, :, 0].astype(int) + random.randint(
+            img[:, :, 0] = (img[:, :, 0].astype(int) + np.random.randint(
                 -self.hue_delta, self.hue_delta)) % 180  # noqa
             img = hsv2bgr(img)
         return img

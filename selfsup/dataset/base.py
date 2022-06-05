@@ -35,15 +35,7 @@ class BaseDataset(torch.utils.data.Dataset):
     def __getitem__(self, i):
 
         data1 = self.pipelines(self.img_infos[i])
-        img1 = data1['img']
-        print(data1['filename'])
-        import numpy as np
-        from PIL import Image
-        img1 = np.array(img1, dtype=np.uint8)
-        img1 = Image.fromarray(img1).convert('RGB')
-        img1.save(f'{i}.png')
-
-        return None
+        return dict(img1=data1['img'])
 
     def __len__(self):
         return len(self.img_infos)

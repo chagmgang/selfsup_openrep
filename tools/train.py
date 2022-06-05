@@ -81,6 +81,16 @@ def train(config_file, global_rank, world_size, distributed, load_from):
 
     cfg = Config.fromfile(config_file)
 
+    import numpy as np
+    from PIL import Image
+    dataset = build_dataset(cfg.data.train)
+    for i in range(10):
+        data = dataset[i]
+        img1 = data['img1']
+        img1 = np.array(img1, dtype=np.uint8)
+        img1 = Image.fromarray(img1).convert('RGB')
+        img1.save(f'{global_rank}_{i}.png')
+
     dataloader = build_dataloader(
         dataset=build_dataset(cfg.data.train),
         cfg=cfg.data,
