@@ -4,6 +4,7 @@ from torch.utils.data import ConcatDataset
 from selfsup.utils import Registry, build_from_cfg
 
 DATASETS = Registry('dataset')
+PIPELINES = Registry('pipelines')
 
 
 def build_dataset(cfg, default_args=None):
