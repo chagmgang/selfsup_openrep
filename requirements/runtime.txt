@@ -1,2 +1,4 @@
+addict
 opencv-python
 torch
+yapf
