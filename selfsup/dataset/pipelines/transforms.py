@@ -69,8 +69,8 @@ class PhotoMetricDistortion(object):
         if np.random.randint(2):
             return self.convert(
                 img,
-                beta=random.uniform(-self.brightness_delta,
-                                    self.brightness_delta))
+                beta=np.random.uniform(-self.brightness_delta,
+                                       self.brightness_delta))
         return img
 
     def contrast(self, img):
@@ -78,7 +78,8 @@ class PhotoMetricDistortion(object):
         if np.random.randint(2):
             return self.convert(
                 img,
-                alpha=random.uniform(self.contrast_lower, self.contrast_upper))
+                alpha=np.random.uniform(self.contrast_lower,
+                                        self.contrast_upper))
         return img
 
     def saturation(self, img):
@@ -87,8 +88,8 @@ class PhotoMetricDistortion(object):
             img = bgr2hsv(img)
             img[:, :, 1] = self.convert(
                 img[:, :, 1],
-                alpha=random.uniform(self.saturation_lower,
-                                     self.saturation_upper))
+                alpha=np.random.uniform(self.saturation_lower,
+                                        self.saturation_upper))
             img = hsv2bgr(img)
         return img
 
