@@ -1,4 +1,6 @@
 addict
+boto3
+mlflow
 opencv-python
 torch
 yapf

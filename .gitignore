@@ -1,3 +1,5 @@
 *.egg-info/
 build/
 __pycache__/
+data/
+nohup.out

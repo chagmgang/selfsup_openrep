@@ -1,6 +1,5 @@
 from typing import Callable, List, Optional, Type, Union
 
-import torch
 import torch.nn as nn
 from torch import Tensor
 
@@ -288,21 +287,7 @@ class ResNet(nn.Module):
 
         return nn.Sequential(*layers)
 
-    def _forward_impl(self, x: Tensor) -> Tensor:
-        # See note [TorchScript super()]
-        features = self.forward_features(x)
-        x = features[-1]
-
-        x = self.avgpool(x)
-        x = torch.flatten(x, 1)
-        x = self.fc(x)
-
-        return x
-
-    def forward(self, x: Tensor) -> Tensor:
-        return self._forward_impl(x)
-
-    def forward_features(self, x):
+    def forward(self, x):
 
         x = self.conv1(x)
         x = self.bn1(x)

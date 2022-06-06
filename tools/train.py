@@ -6,6 +6,8 @@ import torch.multiprocessing as mp
 
 from selfsup import Config
 from selfsup.dataset import build_dataloader, build_dataset
+from selfsup.models import build_algorithm
+from selfsup.runner import build_runner
 
 
 def _find_free_port():
@@ -81,16 +83,6 @@ def train(config_file, global_rank, world_size, distributed, load_from):
 
     cfg = Config.fromfile(config_file)
 
-    import numpy as np
-    from PIL import Image
-    dataset = build_dataset(cfg.data.train)
-    for i in range(10):
-        data = dataset[i]
-        img1 = data['img1']
-        img1 = np.array(img1, dtype=np.uint8)
-        img1 = Image.fromarray(img1).convert('RGB')
-        img1.save(f'{global_rank}_{i}.png')
-
     dataloader = build_dataloader(
         dataset=build_dataset(cfg.data.train),
         cfg=cfg.data,
@@ -100,16 +92,25 @@ def train(config_file, global_rank, world_size, distributed, load_from):
         distributed=distributed,
     )
 
-    for epoch in range(2):
+    device = torch.device('cuda')
+    model = build_algorithm(cfg.model)
+    model = model.to(device)
+    if distributed:
+        model = torch.nn.parallel.DistributedDataParallel(
+            model,
+            device_ids=[device],
+            find_unused_parameters=False,
+        )
 
-        if isinstance(dataloader.sampler,
-                      torch.utils.data.distributed.DistributedSampler):
+    runner = build_runner(cfg.runner)
+    runner.register_datamodule(dataloader)
+    runner.register_model(model)
+    runner.register_optimizer(cfg.optimizer)
+    runner.register_scheduler(cfg.scheduler)
+    runner.register_checkpoint(cfg.checkpoint, cfg)
+    runner.register_logger(cfg.logger)
 
-            dataloader.sampler.set_epoch(epoch)
-
-        for data in dataloader:
-
-            print(epoch, data, global_rank)
+    runner.train()
 
 
 if __name__ == '__main__':

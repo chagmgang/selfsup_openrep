@@ -19,6 +19,30 @@ cv2_interp_codes = {
 
 
 @PIPELINES.register_module()
+class Solarization(object):
+
+    def __init__(self, prob: float = 0.5, thr: int = 127):
+
+        self.prob = prob
+        self.thr = thr
+
+    def __call__(self, results):
+
+        if np.random.rand() > self.prob:
+            return results
+
+        img = results['img']
+        img = np.where(img < self.thr, img, 255 - img)
+        results['img'] = img
+        return results
+
+    def __repr__(self):
+        repr_str = self.__class__.__name__
+        repr_str += f'(prob={self.prob}, thr={self.thr})'
+        return repr_str
+
+
+@PIPELINES.register_module()
 class Normalize(object):
 
     def __init__(self, mean: List[float], std: List[float], to_rgb=True):
