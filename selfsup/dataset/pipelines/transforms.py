@@ -1,6 +1,7 @@
 import random
 from typing import List, Tuple
 
+import albumentations
 import cv2
 import numpy as np
 
@@ -16,6 +17,59 @@ cv2_interp_codes = {
     'area': cv2.INTER_AREA,
     'lanczos': cv2.INTER_LANCZOS4
 }
+
+
+@PIPELINES.register_module()
+class GaussianBlur(albumentations.augmentations.transforms.GaussianBlur):
+
+    def __init__(self, blur_limit=(3, 7), sigma_limit=(0, 1), prob=0.5):
+
+        assert isinstance(blur_limit, tuple)
+        assert len(blur_limit) == 2
+        assert isinstance(sigma_limit, tuple)
+        assert len(sigma_limit) == 2
+        assert 0 <= prob <= 1.0, (
+            f'The prob should be in range [0, 1], got {prob} instead.')
+
+        self.prob = prob
+        self.blur_limit = blur_limit
+        self.sigma_limit = sigma_limit
+
+    def __call__(self, results):
+        if np.random.rand() > self.prob:
+            return results
+
+        img = results['img']
+        params = self.get_params()
+        img = self.apply(img, **params)
+        results['img'] = img
+        return results
+
+
+@PIPELINES.register_module()
+class GaussianNoise(object):
+
+    def __init__(self, mean=0.0, std=1.0, prob=0.5):
+
+        assert 0 <= prob <= 1.0, 'The probability should be in range [0,1].'
+        self.mean = mean
+        self.std = std
+        self.prob = prob
+
+    def _add_noise_to_img(self, results, mean, std):
+        img = results['img']
+        noise = np.random.normal(mean, std)
+        noised_img = img + noise
+
+        return noised_img
+
+    def __call__(self, results):
+        if np.random.rand() > self.prob:
+            return results
+
+        results['img'] = self._add_noise_to_img(results, self.mean, self.std)
+
+        return results
 
 
 @PIPELINES.register_module()

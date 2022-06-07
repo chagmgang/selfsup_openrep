@@ -1,15 +1,17 @@
 data = dict(
-    samples_per_gpu=256,
-    workers_per_gpu=32,
+    samples_per_gpu=512,
+    workers_per_gpu=16,
     train=[
         dict(
             type='SimclrDataset',
             pipelines=[
                 dict(type='LoadImageFromFile'),
                 dict(type='RandomChannelShift'),
+                dict(type='GaussianBlur'),
+                dict(type='GaussianNoise'),
                 dict(type='Resize', img_size=(96, 96), ratio_range=(0.8, 1.2)),
                 dict(type='RandomCrop', crop_size=(96, 96)),
-                dict(type='Solarization', prob=0.5),
+                dict(type='Solarization', prob=0.2),
                 dict(type='PhotoMetricDistortion', prob=0.5),
                 dict(type='RandomFlip', prob=0.5, direction='horizontal'),
                 dict(type='RandomFlip', prob=0.5, direction='vertical'),
@@ -34,7 +36,7 @@ model = dict(
     type='Simclr',
     backbone=dict(
         type='ResNet50',
-        pretrained=True,
+        pretrained=False,
     ),
     projection=dict(
         type='BaseProjection',
@@ -46,22 +48,20 @@ model = dict(
 
 runner = dict(
     type='BaseRunner',
-    max_epochs=10,
+    max_epochs=3000,
 )
 
 optimizer = dict(type='LARS', lr=0.01, weight_decay=6.25e-3)
-scheduler = dict(type='cosine_with_warmup', num_warmup_steps=100)
+scheduler = dict(type='cosine_with_warmup', num_warmup_steps=200)
 checkpoint = dict(
-    interval=100,
-    work_dir='/nas/k8s/dev/mlops/chagmgang/checkpoint/test_selfsup',
-)
+    work_dir='/nas/k8s/dev/mlops/chagmgang/checkpoint/test_selfsup_8gpu', )
 
 logger = [
     dict(type='PrintLogger', interval=50),
     dict(
         type='MlflowLogger',
         experiment_name='SSL',
-        run_name='testing',
+        run_name='resnet50-stl10',
         interval=50,
     ),
 ]

@@ -1,4 +1,5 @@
 addict
+albumentations
 boto3
 mlflow
 opencv-python
