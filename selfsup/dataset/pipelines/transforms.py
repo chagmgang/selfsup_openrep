@@ -40,35 +40,10 @@ class GaussianBlur(albumentations.augmentations.transforms.GaussianBlur):
             return results
 
         img = results['img']
+        orig_dtype = img.dtype
         params = self.get_params()
         img = self.apply(img, **params)
-        results['img'] = img
-        return results
-
-
-@PIPELINES.register_module()
-class GaussianNoise(object):
-
-    def __init__(self, mean=0.0, std=1.0, prob=0.5):
-
-        assert 0 <= prob <= 1.0, 'The probability should be in range [0,1].'
-        self.mean = mean
-        self.std = std
-        self.prob = prob
-
-    def _add_noise_to_img(self, results, mean, std):
-        img = results['img']
-        noise = np.random.normal(mean, std)
-        noised_img = img + noise
-
-        return noised_img
-
-    def __call__(self, results):
-        if np.random.rand() > self.prob:
-            return results
-
-        results['img'] = self._add_noise_to_img(results, self.mean, self.std)
-
+        results['img'] = np.array(img, dtype=orig_dtype)
         return results
 
 
@@ -225,6 +200,7 @@ class PhotoMetricDistortion(object):
             return results
 
         img = results['img']
+        img = np.array(img, dtype=np.uint8)
         # random brightness
         img = self.brightness(img)
 

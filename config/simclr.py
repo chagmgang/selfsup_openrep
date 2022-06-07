@@ -8,7 +8,6 @@ data = dict(
                 dict(type='LoadImageFromFile'),
                 dict(type='RandomChannelShift'),
                 dict(type='GaussianBlur'),
-                dict(type='GaussianNoise'),
                 dict(type='Resize', img_size=(96, 96), ratio_range=(0.8, 1.2)),
                 dict(type='RandomCrop', crop_size=(96, 96)),
                 dict(type='Solarization', prob=0.2),
