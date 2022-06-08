@@ -25,7 +25,7 @@ data = dict(
                 dict(type='Collect'),
             ],
             img_dir='stl10',
-            data_root='/nas/k8s/dev/mlops/chagmgang/dataset',
+            data_root='dataset_path',
             img_suffix='.png',
         ),
     ],
