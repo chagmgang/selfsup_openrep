@@ -4,3 +4,4 @@ __pycache__/
 data/
 nohup.out
 .nfs*
+work_dir/

@@ -1,6 +1,6 @@
 data = dict(
-    samples_per_gpu=512,
-    workers_per_gpu=16,
+    samples_per_gpu=128,
+    workers_per_gpu=8,
     train=[
         dict(
             type='SimclrDataset',
@@ -47,13 +47,12 @@ model = dict(
 
 runner = dict(
     type='BaseRunner',
-    max_epochs=3000,
+    max_epochs=1600,
 )
 
 optimizer = dict(type='LARS', lr=0.01, weight_decay=6.25e-3)
-scheduler = dict(type='cosine_with_warmup', num_warmup_steps=200)
-checkpoint = dict(
-    work_dir='/nas/k8s/dev/mlops/chagmgang/checkpoint/test_selfsup_8gpu', )
+scheduler = dict(type='cosine_with_warmup', num_warmup_steps=0)
+checkpoint = dict()
 
 logger = [
     dict(type='PrintLogger', interval=50),
