@@ -31,3 +31,7 @@ class SelfSupBackbone(nn.Module):
             new_state_dict[new_key] = value
 
         return new_state_dict
+
+    def forward(self, x):
+        feature = self.model(x)
+        return tuple(feature)
