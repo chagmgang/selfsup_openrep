@@ -1,0 +1,2 @@
+mmcls==0.18.0
+mmcv-full==1.4.7 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.9.0/index.html
