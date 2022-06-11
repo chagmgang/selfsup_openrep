@@ -62,8 +62,8 @@ class BaseRunner(object):
             batch_gpu[key] = value
         return batch_gpu
 
-    def training_step(self, data):
-        loss = self.model(data, train=True)
+    def training_step(self, data, **kwargs):
+        loss = self.model(data, train=True, **kwargs)
         self.log(
             dict(
                 train_loss=float(loss.detach().cpu().numpy()),
@@ -99,7 +99,10 @@ class BaseRunner(object):
 
                 data = self.convert_batch_to_gpu(data)
                 self.optimizer.zero_grad()
-                loss = self.training_step(data)
+                loss = self.training_step(
+                    data,
+                    global_step=self.global_step,
+                    max_step=self.max_epochs * len(self.dataloader))
                 if dist.is_initialized():
                     dist.barrier()
                 loss.backward()

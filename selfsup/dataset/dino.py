@@ -6,7 +6,7 @@ from .pipelines import Compose
 
 
 @DATASETS.register_module()
-class BYOLDataset(BaseDataset):
+class DINODataset(BaseDataset):
 
     def __init__(self,
                  global_pipelines,
@@ -28,12 +28,12 @@ class BYOLDataset(BaseDataset):
     def __getitem__(self, i):
 
         global_views = [
-            self.global_pipelines(self.img_infos[i])
+            self.global_pipelines(self.img_infos[i])['img']
             for _ in range(self.ncrop_global_view)
         ]
 
         local_views = [
-            self.local_pipelines(self.img_infos[i])
+            self.local_pipelines(self.img_infos[i])['img']
             for _ in range(self.ncrop_local_view)
         ]
 
