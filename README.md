@@ -19,3 +19,6 @@ This project is to provide remote sensing imagery weight file for better perform
 * https://github.com/open-mmlab/mmselfsup
 * https://github.com/facebookresearch/dino
 * https://github.com/open-mmlab/mmclassification
+* https://github.com/open-mmlab/mmdetection
+* https://github.com/open-mmlab/mmrotate
+* https://captain-whu.github.io/DOTA/dataset.html
