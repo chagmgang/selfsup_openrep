@@ -61,7 +61,7 @@ class Simclr(nn.Module):
         labels = labels.cuda()
         return self.criterion(logits, labels) * 2 * self.tau
 
-    def forward_train(self, batch):
+    def forward_train(self, batch, **kwargs):
 
         x1 = batch['img1']
         x2 = batch['img2']
@@ -71,8 +71,8 @@ class Simclr(nn.Module):
 
         return self.contrastive_loss(q1, q2) + self.contrastive_loss(q2, q1)
 
-    def forward(self, x, train=True):
+    def forward(self, x, train=True, **kwargs):
         if train:
-            return self.forward_train(x)
+            return self.forward_train(x, **kwargs)
         else:
             return self.forward_test(x)
