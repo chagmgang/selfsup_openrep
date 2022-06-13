@@ -18,6 +18,6 @@ python3 -m torch.distributed.launch --nproc_per_node=1 --master_port=29500 train
 |     Initialization    | Pretraining | Pretraining data |   top1  |   top5  |
 |:---------------------:|:-----------:|:----------------:|:-------:|:-------:|
 | Random Initialization |      -      |         -        | 58.0250 | 95.7250 |
-| Random Initialization |  Simclr     | train+unlabeled  |         |         |
+| Random Initialization |  Simclr     | train+unlabeled  | 63.0625 | 96.7875 |
 |  Supervised Imagenet  |      -      |         -        | 91.2125 | 99.4500 |
 |  Supervised Imagenet  |  Simclr     | train+unlabeled  |         |         |
