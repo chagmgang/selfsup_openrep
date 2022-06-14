@@ -5,7 +5,6 @@ train_pipeline = [
     dict(type='RandomCrop', crop_size=(1024, 1024)),
     dict(type='RandomFlip', prob=0.5, direction='horizontal'),
     dict(type='RandomFlip', prob=0.5, direction='vertical'),
-    dict(type='RandomRotate', prob=0.5, degree=(-45, 45)),
     dict(
         type='Normalize',
         mean=[123.675, 116.28, 103.53],
@@ -110,7 +109,7 @@ lr_config = dict(
     by_epoch=False)
 runner = dict(type='IterBasedRunner', max_iters=20000)
 checkpoint_config = dict(by_epoch=False, interval=4000)
-evaluation = dict(interval=4000, metric='mIoU')
+evaluation = dict(interval=4000, metric='mIoU', pre_eval=True)
 # yapf:disable
 log_config = dict(
     interval=50,
