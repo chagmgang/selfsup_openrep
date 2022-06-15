@@ -91,8 +91,4 @@ if __name__ == '__main__':
         version=get_version(),
         author='SIA',
         packages=find_packages(exclude=('configs', 'tools')),
-        install_requires=parse_requirements('requirements/runtime.txt'),
-        extras_require={
-            'optional': parse_requirements('requirements/optional.txt'),
-        },
     )

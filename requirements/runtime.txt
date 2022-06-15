@@ -2,6 +2,7 @@ addict
 albumentations
 boto3
 mlflow
+mmcv-full==1.4.7 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.9.0/index.html
 opencv-python-headless==4.5.4.58
 torch
 yapf
