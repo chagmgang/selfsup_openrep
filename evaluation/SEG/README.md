@@ -28,7 +28,7 @@ python3 -m torch.distributed.launch --nproc_per_node=1 --master_port=29500 train
 ```
 
 ### Resnet50
-|     Initialization    | Pretraining | Pretraining data |  *mAP* |  background  |   building  |
-|:---------------------:|:---------------------:|:---------------------:|:---------------------:|:---------------------:|:---------------------:|
-| Random Initialization |      -      |         -        | *65.1*   | 88.68 | 41.52 |
-| Supervised Imagenet |      -      |         -        | *77.43*  | 92.58 | 62.27 |
+|     Initialization    | Backbone | Pretraining | Pretraining data |  *mAP* |  background  |   building  |
+|:---------------------:|:--------:|:-----------:|:----------------:|:------:|:------------:|:-----------:|
+| Random Initialization | Resnet50 |      -      |         -        | *65.1* | 88.68        | 41.52       |
+| Supervised Imagenet   | Resnet50 |      -      |         -        | *77.43*| 92.58        | 62.27       |
