@@ -24,6 +24,12 @@ This project is to provide remote sensing imagery weight file for better perform
 #### Prove that the algorithm works properly
 * This table shows that the only algorithm works properly with `STL10` Dataset.
 
+|     Initialization    | Backbone | Pretraining | Pretraining data |   top1  |   top5  |
+|:---------------------:|:--------:|:----------------:|:-------:|:-------:|:-------:|
+| Random Initialization | Resnet50 |      -      |         -        | 58.0250 | 95.7250 |
+| Random Initialization | Resnet50 |  Simclr     | train+unlabeled  | 63.0625 | 96.7875 |
+|  Supervised Imagenet  | Resnet50 |      -      |         -        | 91.2125 | 99.4500 |
+|  Supervised Imagenet  | Resnet50 |  Simclr     | train+unlabeled  |         |         |
 
 
 #### Downstream task
@@ -31,10 +37,10 @@ This project is to provide remote sensing imagery weight file for better perform
 * More detailed performance in rotated object detection in link, https://github.com/chagmgang/selfsup_openrep/blob/main/evaluation/DET/README.md.
 * More detailed performance in semantic segmentation in link, https://github.com/chagmgang/selfsup_openrep/blob/main/evaluation/SEG/README.md.
 
-|     Initialization    | Pretraining | Pretraining data |  Dota2.0 |  Inria |
-|:---------------------:|:---------------------:|:---------------------:|:---------------------:|:---------------------:|
-| Random Initialization |      -      |         -        | 0.442   | 65.1 |
-| Supervised Imagenet |      -      |         -        | 0.578  | 77.43 |
+|     Initialization    | Backbone | Pretraining | Pretraining data |  Dota2.0 |  Inria |
+|:---------------------:|:--------:|:-----------:|:----------------:|:--------:|:------:|
+| Random Initialization | Resnet50 |      -      |         -        | 0.442    | 65.1.  |
+| Supervised Imagenet   | Resnet50 |      -      |         -        | 0.578    | 77.43  |
 
 ### Reference
 * https://github.com/open-mmlab/mmcv
