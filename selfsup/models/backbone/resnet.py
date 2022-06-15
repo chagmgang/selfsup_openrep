@@ -3,8 +3,8 @@ from typing import Callable, List, Optional, Type, Union
 import torch.nn as nn
 from torch import Tensor
 
-from selfsup.models import BACKBONE
 from selfsup.utils._internally_replaced_utils import load_state_dict_from_url
+from ..builder import BACKBONES
 
 model_urls = {
     'resnet18':
@@ -311,7 +311,7 @@ class ResNet(nn.Module):
         print(f'missing_key : {missing_key}')
 
 
-@BACKBONE.register_module()
+@BACKBONES.register_module()
 class ResNet18(ResNet):
 
     def __init__(self, **kwargs):
@@ -321,7 +321,7 @@ class ResNet18(ResNet):
             self.pretrained('resnet18')
 
 
-@BACKBONE.register_module()
+@BACKBONES.register_module()
 class ResNet34(ResNet):
 
     def __init__(self, **kwargs):
@@ -331,7 +331,7 @@ class ResNet34(ResNet):
             self.pretrained('resnet34')
 
 
-@BACKBONE.register_module()
+@BACKBONES.register_module()
 class ResNet50(ResNet):
 
     def __init__(self, **kwargs):
@@ -341,7 +341,7 @@ class ResNet50(ResNet):
             self.pretrained('resnet50')
 
 
-@BACKBONE.register_module()
+@BACKBONES.register_module()
 class ResNet101(ResNet):
 
     def __init__(self, **kwargs):
@@ -351,7 +351,7 @@ class ResNet101(ResNet):
             self.pretrained('resnet101')
 
 
-@BACKBONE.register_module()
+@BACKBONES.register_module()
 class ResNet152(ResNet):
 
     def __init__(self, **kwargs):
@@ -361,7 +361,7 @@ class ResNet152(ResNet):
             self.pretrained('resnet152')
 
 
-@BACKBONE.register_module()
+@BACKBONES.register_module()
 class ResNext50_32x4d(ResNet):
 
     def __init__(self, **kwargs):
@@ -377,7 +377,7 @@ class ResNext50_32x4d(ResNet):
             self.pretrained('resnext50_32x4d')
 
 
-@BACKBONE.register_module()
+@BACKBONES.register_module()
 class ResNext101_32x8d(ResNet):
 
     def __init__(self, **kwargs):
@@ -393,7 +393,7 @@ class ResNext101_32x8d(ResNet):
             self.pretrained('resnext101_32x8d')
 
 
-@BACKBONE.register_module()
+@BACKBONES.register_module()
 class WideResNet50_2(ResNet):
 
     def __init__(self, **kwargs):
@@ -408,7 +408,7 @@ class WideResNet50_2(ResNet):
             self.pretrained('wide_resnet50_2')
 
 
-@BACKBONE.register_module()
+@BACKBONES.register_module()
 class WideResNet101_2(ResNet):
 
     def __init__(self, **kwargs):
