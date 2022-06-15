@@ -4,10 +4,9 @@ checkpoint_config = dict(interval=10)
 
 # yapf:disable
 log_config = dict(
-    interval=1,
+    interval=50,
     hooks=[
         dict(type='TextLoggerHook'),
-        # dict(type='TensorboardLoggerHook'),
     ])
 # yapf:enable
 
@@ -40,16 +39,16 @@ lr_config = dict(
     warmup_by_epoch=True)
 
 # runtime settings
-runner = dict(type='EpochBasedRunner', max_epochs=200)
+runner = dict(type='EpochBasedRunner', max_epochs=500)
 
 # data
 data = dict(
-    samples_per_gpu=32,
-    workers_per_gpu=4,
+    samples_per_gpu=1024,
+    workers_per_gpu=16,
     train=dict(
         type='SimclrDataset',
         data_root='/nas/k8s/dev/mlops/chagmgang/dataset',
-        img_dir='inria/valid/images',
+        img_dir='stl10',
         img_suffix='.png',
         pipelines=[
             dict(type='LoadImageFromFile'),
@@ -64,8 +63,8 @@ data = dict(
             dict(type='Pad', size_divisor=96),
             dict(
                 type='Normalize',
-                mean=[0.0, 0.0, 0.0],
-                std=[255.0, 255.0, 255.0],
+                mean=[123.675, 116.28, 103.53],
+                std=[58.395, 57.12, 57.375],
                 to_rgb=True,
             ),
             dict(type='Collect'),
@@ -77,7 +76,7 @@ model = dict(
     type='Simclr',
     backbone=dict(
         type='ResNet50',
-        pretrained=True,
+        pretrained=None,
         weight=None,
     ),
     projection=dict(
