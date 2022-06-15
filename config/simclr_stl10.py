@@ -4,9 +4,14 @@ checkpoint_config = dict(interval=10)
 
 # yapf:disable
 log_config = dict(
-    interval=50,
+    interval=10,
     hooks=[
         dict(type='TextLoggerHook'),
+        dict(
+            type='CustomMlflowLoggerHook',
+            exp_name='SSL',
+            run_name='stl10-resnet50-simclr',
+        ),
     ])
 # yapf:enable
 
@@ -39,7 +44,7 @@ lr_config = dict(
     warmup_by_epoch=True)
 
 # runtime settings
-runner = dict(type='EpochBasedRunner', max_epochs=500)
+runner = dict(type='EpochBasedRunner', max_epochs=10)
 
 # data
 data = dict(
@@ -53,7 +58,7 @@ data = dict(
         pipelines=[
             dict(type='LoadImageFromFile'),
             dict(type='GaussianBlur'),
-            dict(type='Resize', img_size=(96, 96), ratio_range=(0.8, 1.2)),
+            dict(type='Resize', img_size=(96, 96), ratio_range=(0.8, 1.5)),
             dict(type='RandomCrop', crop_size=(96, 96)),
             dict(type='Solarization', prob=0.2),
             dict(type='PhotoMetricDistortion', prob=0.5),
@@ -76,7 +81,7 @@ model = dict(
     type='Simclr',
     backbone=dict(
         type='ResNet50',
-        pretrained=None,
+        pretrained=False,
         weight=None,
     ),
     projection=dict(
