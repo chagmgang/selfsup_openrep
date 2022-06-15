@@ -27,7 +27,7 @@ pip3 install -r requirements.txt
 python3 -m torch.distributed.launch --nproc_per_node=1 --master_port=29500 train.py {config_file} --launcher pytorch
 ```
 
-### Resnet50
+### Performance
 |     Initialization    | Backbone | Pretraining | Pretraining data |  *mAP* |  background  |   building  |
 |:---------------------:|:--------:|:-----------:|:----------------:|:------:|:------------:|:-----------:|
 | Random Initialization | Resnet50 |      -      |         -        | *65.1* | 88.68        | 41.52       |
