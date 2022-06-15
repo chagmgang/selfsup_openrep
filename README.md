@@ -21,6 +21,13 @@ This project is to provide remote sensing imagery weight file for better perform
 
 ### Performance
 
+#### Prove that the algorithm works properly
+* This table shows that the only algorithm works properly with `STL10` Dataset.
+
+
+
+#### Downstream task
+
 * More detailed performance in rotated object detection in link, https://github.com/chagmgang/selfsup_openrep/blob/main/evaluation/DET/README.md.
 * More detailed performance in semantic segmentation in link, https://github.com/chagmgang/selfsup_openrep/blob/main/evaluation/SEG/README.md.
 
