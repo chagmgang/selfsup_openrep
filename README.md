@@ -38,3 +38,4 @@ This project is to provide remote sensing imagery weight file for better perform
 * https://github.com/open-mmlab/mmsegmentation
 * https://github.com/open-mmlab/mmrotate
 * https://captain-whu.github.io/DOTA/dataset.html
+* https://project.inria.fr/aerialimagelabeling/
