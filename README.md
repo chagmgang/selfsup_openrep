@@ -13,11 +13,28 @@ This project is to provide remote sensing imagery weight file for better perform
 - [ ] [MOCO V3 : An Empirical Study of Training Self-Supervised Vision Transformers](https://arxiv.org/abs/2104.02057)
 - [ ] [Dino : Emerging Properties in Self-Supervised Vision Transformers](https://arxiv.org/abs/2104.14294)
 
+### Backbone
+
+* [x] [Resnet](https://arxiv.org/abs/1512.03385)
+* [ ] [Swin transformer](https://arxiv.org/abs/2103.14030)
+* [ ] [Convnext](https://arxiv.org/abs/2201.03545)
+
+### Performance
+
+* More detailed performance in rotated object detection in link, 
+* More detailed performance in semantic segmentation in link,
+
+|     Initialization    | Pretraining | Pretraining data |  Dota2.0 |  Inria |
+|:---------------------:|:---------------------:|:---------------------:|:---------------------:|:---------------------:|
+| Random Initialization |      -      |         -        | 0.442   | 65.1 |
+| Supervised Imagenet |      -      |         -        | 0.578  | 77.43 |
+
 ### Reference
 * https://github.com/open-mmlab/mmcv
 * https://github.com/open-mmlab/mmselfsup
 * https://github.com/facebookresearch/dino
 * https://github.com/open-mmlab/mmclassification
 * https://github.com/open-mmlab/mmdetection
+* https://github.com/open-mmlab/mmsegmentation
 * https://github.com/open-mmlab/mmrotate
 * https://captain-whu.github.io/DOTA/dataset.html
