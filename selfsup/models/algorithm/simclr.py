@@ -1,6 +1,3 @@
-import os
-
-import psutil
 import torch
 import torch.nn as nn
 
@@ -69,6 +66,4 @@ class Simclr(BaseModel):
         q2 = self.get_projection(img2)
 
         loss = self.contrastive_loss(q1, q2) + self.contrastive_loss(q2, q1)
-        memory_usage = psutil.Process(os.getpid()).memory_info().rss / 1024**2
-        print(memory_usage)
         return dict(loss=loss)

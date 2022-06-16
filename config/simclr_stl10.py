@@ -4,7 +4,7 @@ checkpoint_config = dict(interval=40)
 
 # yapf:disable
 log_config = dict(
-    interval=1,
+    interval=25,
     hooks=[
         dict(type='TextLoggerHook'),
         dict(
@@ -66,7 +66,7 @@ train_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=256,
+    samples_per_gpu=256 + 128,
     workers_per_gpu=32,
     train=dict(
         type='ListSimclrDataset',
