@@ -31,7 +31,7 @@ mp_start_method = 'fork'
 
 # schedule
 # optimizer
-optimizer = dict(type='SGD', lr=2.4, weight_decay=1e-6, momentum=0.9)
+optimizer = dict(type='LARS', lr=1.2, weight_decay=1e-6, momentum=0.9)
 optimizer_config = dict()  # grad_clip, coalesce, bucket_size_mb
 
 # learning policy
@@ -44,7 +44,7 @@ lr_config = dict(
     warmup_by_epoch=True)
 
 # runtime settings
-runner = dict(type='EpochBasedRunner', max_epochs=800)
+runner = dict(type='EpochBasedRunner', max_epochs=1000)
 
 # data
 
@@ -69,8 +69,8 @@ train_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=384,
-    workers_per_gpu=16,
+    samples_per_gpu=256,
+    workers_per_gpu=32,
     train=[
         dict(
             type='ListSimclrDataset',
@@ -95,7 +95,7 @@ model = dict(
     type='Simclr',
     backbone=dict(
         type='ResNet50',
-        pretrained=True,
+        pretrained=False,
         weight=None,
     ),
     projection=dict(

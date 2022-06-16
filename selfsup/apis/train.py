@@ -94,7 +94,7 @@ def train_model(model,
         num_gpus=len(cfg.gpu_ids),
         dist=distributed,
         replace=getattr(cfg.data, 'sampling_replace', False),
-        drop_last=getattr(cfg.data, 'drop_last', False),
+        drop_last=getattr(cfg.data, 'drop_last', True),
         seed=cfg.get('seed'),
         persistent_workers=cfg.persistent_workers,
     )
