@@ -4,7 +4,7 @@ checkpoint_config = dict(interval=40)
 
 # yapf:disable
 log_config = dict(
-    interval=50,
+    interval=25,
     hooks=[
         dict(type='TextLoggerHook'),
         dict(
@@ -31,7 +31,7 @@ mp_start_method = 'fork'
 
 # schedule
 # optimizer
-optimizer = dict(type='LARS', lr=4.8, weight_decay=1e-6, momentum=0.9)
+optimizer = dict(type='SGD', lr=2.4, weight_decay=1e-6, momentum=0.9)
 optimizer_config = dict()  # grad_clip, coalesce, bucket_size_mb
 
 # learning policy
@@ -39,12 +39,12 @@ lr_config = dict(
     policy='CosineAnnealing',
     min_lr=0.,
     warmup='linear',
-    warmup_iters=10,
+    warmup_iters=1,
     warmup_ratio=1e-4,  # cannot be 0
     warmup_by_epoch=True)
 
 # runtime settings
-runner = dict(type='EpochBasedRunner', max_epochs=1600)
+runner = dict(type='EpochBasedRunner', max_epochs=800)
 
 # data
 
