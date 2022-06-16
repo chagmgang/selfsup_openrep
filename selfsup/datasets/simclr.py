@@ -30,7 +30,7 @@ class ListSimclrDataset(SimclrDataset):
         self.pipelines = Compose(pipelines)
         self.txt_file = txt_file
 
-        self.img_infos = self.load_images(self, txt_file)
+        self.img_infos = self.load_images(txt_file)
 
     def load_images(self, txt_file):
 

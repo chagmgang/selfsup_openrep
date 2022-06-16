@@ -1,16 +1,16 @@
 # runtime
 # checkpoint saving
-checkpoint_config = dict(interval=10)
+checkpoint_config = dict(interval=40)
 
 # yapf:disable
 log_config = dict(
-    interval=10,
+    interval=50,
     hooks=[
         dict(type='TextLoggerHook'),
         dict(
             type='CustomMlflowLoggerHook',
             exp_name='SSL',
-            run_name='stl10-resnet50-simclr',
+            run_name='remote-resnet50-simclr',
         ),
     ])
 # yapf:enable
@@ -44,44 +44,57 @@ lr_config = dict(
     warmup_by_epoch=True)
 
 # runtime settings
-runner = dict(type='EpochBasedRunner', max_epochs=10)
+runner = dict(type='EpochBasedRunner', max_epochs=1600)
 
 # data
+
+train_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(type='GaussianBlur'),
+    dict(type='Resize', img_size=(224, 224), ratio_range=(0.8, 1.5)),
+    dict(type='RandomCrop', crop_size=(224, 224)),
+    dict(type='Solarization', prob=0.2),
+    dict(type='PhotoMetricDistortion', prob=0.5),
+    dict(type='RandomFlip', prob=0.5, direction='horizontal'),
+    dict(type='RandomFlip', prob=0.5, direction='vertical'),
+    dict(type='RandomRotate', prob=1.0, degree=(-45, 45)),
+    dict(type='Pad', size_divisor=224),
+    dict(
+        type='Normalize',
+        mean=[123.675, 116.28, 103.53],
+        std=[58.395, 57.12, 57.375],
+        to_rgb=True,
+    ),
+    dict(type='Collect'),
+]
+
 data = dict(
-    samples_per_gpu=1024,
+    samples_per_gpu=256,
     workers_per_gpu=16,
-    train=dict(
-        type='SimclrDataset',
-        data_root='/nas/k8s/dev/mlops/chagmgang/dataset',
-        img_dir='stl10',
-        img_suffix='.png',
-        pipelines=[
-            dict(type='LoadImageFromFile'),
-            dict(type='GaussianBlur'),
-            dict(type='Resize', img_size=(96, 96), ratio_range=(0.8, 1.5)),
-            dict(type='RandomCrop', crop_size=(96, 96)),
-            dict(type='Solarization', prob=0.2),
-            dict(type='PhotoMetricDistortion', prob=0.5),
-            dict(type='RandomFlip', prob=0.5, direction='horizontal'),
-            dict(type='RandomFlip', prob=0.5, direction='vertical'),
-            dict(type='RandomRotate', prob=1.0, degree=(-45, 45)),
-            dict(type='Pad', size_divisor=96),
-            dict(
-                type='Normalize',
-                mean=[123.675, 116.28, 103.53],
-                std=[58.395, 57.12, 57.375],
-                to_rgb=True,
-            ),
-            dict(type='Collect'),
-        ],
-    ))
+    train=[
+        dict(
+            type='ListSimclrDataset',
+            pipelines=train_pipeline,
+            txt_file='/nas/k8s/dev/mlops/chagmgang/dataset'+txt_file,
+        ) for txt_file in [
+            'dior.txt',
+            'dota.txt',
+            'fair1m_train_part1.txt',
+            'fair1m_train_part2.txt',
+            'fair1m_validation.txt',
+            'inria.txt',
+            'nia.txt',
+            'nia_building.txt',
+            'rareplane.txt',
+            'spacenet6.txt',
+        ]])
 
 # models
 model = dict(
     type='Simclr',
     backbone=dict(
         type='ResNet50',
-        pretrained=False,
+        pretrained=True,
         weight=None,
     ),
     projection=dict(
