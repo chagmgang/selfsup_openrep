@@ -4,7 +4,7 @@ checkpoint_config = dict(interval=40)
 
 # yapf:disable
 log_config = dict(
-    interval=25,
+    interval=1,
     hooks=[
         dict(type='TextLoggerHook'),
         dict(
@@ -50,15 +50,12 @@ runner = dict(type='EpochBasedRunner', max_epochs=1000)
 
 train_pipeline = [
     dict(type='LoadImageFromFile'),
-    dict(type='GaussianBlur'),
     dict(type='Resize', img_size=(224, 224), ratio_range=(0.8, 1.5)),
     dict(type='RandomCrop', crop_size=(224, 224)),
-    dict(type='Solarization', prob=0.2),
-    dict(type='PhotoMetricDistortion', prob=0.5),
-    dict(type='RandomFlip', prob=0.5, direction='horizontal'),
-    dict(type='RandomFlip', prob=0.5, direction='vertical'),
-    dict(type='RandomRotate', prob=1.0, degree=(-45, 45)),
     dict(type='Pad', size_divisor=224),
+    dict(type='RandomFlip', prob=0.5, direction='horizontal'),
+    dict(type='PhotoMetricDistortion', prob=0.5),
+    dict(type='GaussianBlur'),
     dict(
         type='Normalize',
         mean=[123.675, 116.28, 103.53],
@@ -70,25 +67,13 @@ train_pipeline = [
 
 data = dict(
     samples_per_gpu=256,
-    workers_per_gpu=32,
-    train=[
-        dict(
-            type='ListSimclrDataset',
-            pipelines=train_pipeline,
-            txt_file='/nas/k8s/dev/mlops/chagmgang/dataset/' + txt_file,
-        ) for txt_file in [
-            'dior.txt',
-            'dota.txt',
-            'fair1m_train_part1.txt',
-            'fair1m_train_part2.txt',
-            'fair1m_validation.txt',
-            'inria.txt',
-            'nia.txt',
-            'nia_building.txt',
-            'rareplane.txt',
-            'spacenet6.txt',
-        ]
-    ])
+    workers_per_gpu=64,
+    train=dict(
+        type='ListSimclrDataset',
+        pipelines=train_pipeline,
+        txt_file='/nas/k8s/dev/mlops/chagmgang/dataset/tot.txt',
+    ),
+)
 
 # models
 model = dict(

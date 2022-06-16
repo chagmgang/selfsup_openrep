@@ -1,29 +1,24 @@
 import torch
-import torch.distributed as dist
 import torch.nn as nn
 
 from ..builder import ALGORITHMS, build_backbone, build_projection
 from .base import BaseModel
 
 
-class GatherLayer(torch.autograd.Function):
-    """Gather tensors from all process, supporting backward propagation."""
+@torch.no_grad()
+def concat_all_gather(tensor):
+    """Performs all_gather operation on the provided tensors.
 
-    @staticmethod
-    def forward(ctx, input):
-        ctx.save_for_backward(input)
-        output = [
-            torch.zeros_like(input) for _ in range(dist.get_world_size())
-        ]
-        dist.all_gather(output, input)
-        return tuple(output)
+    *** Warning ***: torch.distributed.all_gather has no gradient.
+    """
+    tensors_gather = [
+        torch.ones_like(tensor)
+        for _ in range(torch.distributed.get_world_size())
+    ]
+    torch.distributed.all_gather(tensors_gather, tensor, async_op=False)
 
-    @staticmethod
-    def backward(ctx, *grads):
-        input, = ctx.saved_tensors
-        grad_out = torch.zeros_like(input)
-        grad_out[:] = grads[dist.get_rank()]
-        return grad_out
+    output = torch.cat(tensors_gather, dim=0)
+    return output
 
 
 @ALGORITHMS.register_module()
@@ -37,8 +32,6 @@ class Simclr(BaseModel):
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.flatten = nn.Flatten()
 
-        self.global_step = 0
-        self.criterion = nn.CrossEntropyLoss()
         self.temperature = temperature
 
     def extract_feat(self, img):
@@ -51,55 +44,25 @@ class Simclr(BaseModel):
         x = self.flatten(x)
         return self.projection(x)
 
-    def contrastive_loss(self, pos, neg):
-        N = pos.size(0)
-        logits = torch.cat((pos, neg), dim=1)
-        logits /= self.temperature
-        labels = torch.zeros((N, ), dtype=torch.long).to(pos.device)
-        losses = dict()
-        losses['loss'] = self.criterion(logits, labels)
-        return losses
+    def contrastive_loss(self, q, k):
+        q = torch.nn.functional.normalize(q, dim=1)
+        k = torch.nn.functional.normalize(k, dim=1)
+        k = concat_all_gather(k)
 
-    @staticmethod
-    def _create_buffer(N):
-        """Compute the mask and the index of positive samples.
-
-        Args:
-            N (int): batch size.
-        """
-        mask = 1 - torch.eye(N * 2, dtype=torch.uint8).cuda()
-        pos_ind = (torch.arange(N * 2).cuda(),
-                   2 * torch.arange(N, dtype=torch.long).unsqueeze(1).repeat(
-                       1, 2).view(-1, 1).squeeze().cuda())
-        neg_mask = torch.ones((N * 2, N * 2 - 1), dtype=torch.uint8).cuda()
-        neg_mask[pos_ind] = 0
-        return mask, pos_ind, neg_mask
+        logits = torch.einsum('nc,mc->nm', [q, k])
+        N = logits.shape[0]
+        labels = (
+            torch.arange(N, dtype=torch.long) +  # noqa: W504
+            N * torch.distributed.get_rank()).cuda()
+        return nn.CrossEntropyLoss()(logits, labels) * 2 * self.temperature
 
     def forward_train(self, img, **kwargs):
-        """Forward computation during training.
 
-        Args:
-            img (list[Tensor]): A list of input images with shape
-                (N, C, H, W). Typically these should be mean centered
-                and std scaled.
-        Returns:
-            dict[str, Tensor]: A dictionary of loss components.
-        """
-        assert isinstance(img, list)
-        img = torch.stack([img[0], img[1]], 1)
-        img = img.reshape(
-            (img.size(0) * 2, img.size(2), img.size(3), img.size(4)))
-        z = self.get_projection(img)
-        z = z / (torch.norm(z, p=2, dim=1, keepdim=True) + 1e-10)
-        z = torch.cat(GatherLayer.apply(z), dim=0)  # (2N)xd
-        assert z.size(0) % 2 == 0
-        N = z.size(0) // 2
-        s = torch.matmul(z, z.permute(1, 0))  # (2N)x(2N)
-        mask, pos_ind, neg_mask = self._create_buffer(N)
-        # remove diagonal, (2N)x(2N-1)
-        s = torch.masked_select(s, mask == 1).reshape(s.size(0), -1)
-        positive = s[pos_ind].unsqueeze(1)  # (2N)x1
-        # select negative, (2N)x(2N-2)
-        negative = torch.masked_select(s, neg_mask == 1).reshape(s.size(0), -1)
-        losses = self.contrastive_loss(positive, negative)
-        return losses
+        img1 = img[0]
+        img2 = img[1]
+
+        q1 = self.get_projection(img1)
+        q2 = self.get_projection(img2)
+
+        loss = self.contrastive_loss(q1, q2) + self.contrastive_loss(q2, q1)
+        return dict(loss=loss)

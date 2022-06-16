@@ -11,13 +11,11 @@ class BaseProjection(BaseModule):
         super(BaseProjection, self).__init__()
 
         self.l1 = nn.Linear(input_dim, hidden_dim)
-        self.batch = nn.BatchNorm1d(hidden_dim)
         self.l2 = nn.Linear(hidden_dim, last_dim)
         self.relu = nn.ReLU()
 
     def forward(self, x):
         x = self.l1(x)
-        x = self.batch(x)
         x = self.relu(x)
         x = self.l2(x)
         return x
