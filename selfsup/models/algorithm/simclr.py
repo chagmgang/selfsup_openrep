@@ -60,6 +60,21 @@ class Simclr(BaseModel):
         losses['loss'] = self.criterion(logits, labels)
         return losses
 
+    @staticmethod
+    def _create_buffer(N):
+        """Compute the mask and the index of positive samples.
+
+        Args:
+            N (int): batch size.
+        """
+        mask = 1 - torch.eye(N * 2, dtype=torch.uint8).cuda()
+        pos_ind = (torch.arange(N * 2).cuda(),
+                   2 * torch.arange(N, dtype=torch.long).unsqueeze(1).repeat(
+                       1, 2).view(-1, 1).squeeze().cuda())
+        neg_mask = torch.ones((N * 2, N * 2 - 1), dtype=torch.uint8).cuda()
+        neg_mask[pos_ind] = 0
+        return mask, pos_ind, neg_mask
+
     def forward_train(self, img, **kwargs):
         """Forward computation during training.
 
