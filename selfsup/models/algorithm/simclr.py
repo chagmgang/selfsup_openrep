@@ -1,3 +1,6 @@
+import os
+
+import psutil
 import torch
 import torch.nn as nn
 
@@ -33,6 +36,7 @@ class Simclr(BaseModel):
         self.flatten = nn.Flatten()
 
         self.temperature = temperature
+        self.criterion = nn.CrossEntropyLoss()
 
     def extract_feat(self, img):
         x = self.backbone(img)
@@ -54,7 +58,7 @@ class Simclr(BaseModel):
         labels = (
             torch.arange(N, dtype=torch.long) +  # noqa: W504
             N * torch.distributed.get_rank()).cuda()
-        return nn.CrossEntropyLoss()(logits, labels) * 2 * self.temperature
+        return self.criterion(logits, labels) * 2 * self.temperature
 
     def forward_train(self, img, **kwargs):
 
@@ -65,4 +69,6 @@ class Simclr(BaseModel):
         q2 = self.get_projection(img2)
 
         loss = self.contrastive_loss(q1, q2) + self.contrastive_loss(q2, q1)
+        memory_usage = psutil.Process(os.getpid()).memory_info().rss / 1024**2
+        print(memory_usage)
         return dict(loss=loss)

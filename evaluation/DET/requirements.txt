@@ -1,3 +1,3 @@
-mmcv-full==1.4.7 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.9.0/index.html
+mmcv-full==1.4.7 -f https://download.openmmlab.com/mmcv/dist/cu110/torch1.7.0/index.html
 mmdet==2.23.0
 mmrotate==0.3.0

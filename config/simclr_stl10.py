@@ -31,7 +31,7 @@ mp_start_method = 'fork'
 
 # schedule
 # optimizer
-optimizer = dict(type='LARS', lr=1.2, weight_decay=1e-6, momentum=0.9)
+optimizer = dict(type='SGD', lr=1.2, weight_decay=1e-6, momentum=0.9)
 optimizer_config = dict()  # grad_clip, coalesce, bucket_size_mb
 
 # learning policy
@@ -67,7 +67,7 @@ train_pipeline = [
 
 data = dict(
     samples_per_gpu=256,
-    workers_per_gpu=64,
+    workers_per_gpu=32,
     train=dict(
         type='ListSimclrDataset',
         pipelines=train_pipeline,
