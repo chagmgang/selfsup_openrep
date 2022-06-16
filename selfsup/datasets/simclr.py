@@ -1,10 +1,11 @@
 from .base import BaseDataset
 from .builder import DATASETS
-from .pipelines import Compose
 
 
 @DATASETS.register_module()
 class SimclrDataset(BaseDataset):
+
+    CLASSES = None
 
     def __init__(self, pipelines, img_dir, img_suffix='.png', data_root=None):
         super(SimclrDataset, self).__init__(
@@ -27,14 +28,18 @@ class ListSimclrDataset(SimclrDataset):
 
     def __init__(self, pipelines, txt_file):
 
-        self.pipelines = Compose(pipelines)
         self.txt_file = txt_file
 
-        self.img_infos = self.load_images(txt_file)
+        super(SimclrDataset, self).__init__(
+            pipelines=pipelines,
+            img_dir='',
+            img_suffix='',
+            data_root=None,
+        )
 
-    def load_images(self, txt_file):
+    def load_images(self, img_dir, img_suffix):
 
-        f = open(txt_file, 'r')
+        f = open(self.txt_file, 'r')
         img_infos = list()
         while True:
             line = f.readline()

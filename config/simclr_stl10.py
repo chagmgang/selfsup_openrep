@@ -69,13 +69,13 @@ train_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=256,
+    samples_per_gpu=384,
     workers_per_gpu=16,
     train=[
         dict(
             type='ListSimclrDataset',
             pipelines=train_pipeline,
-            txt_file='/nas/k8s/dev/mlops/chagmgang/dataset'+txt_file,
+            txt_file='/nas/k8s/dev/mlops/chagmgang/dataset/' + txt_file,
         ) for txt_file in [
             'dior.txt',
             'dota.txt',
@@ -87,7 +87,8 @@ data = dict(
             'nia_building.txt',
             'rareplane.txt',
             'spacenet6.txt',
-        ]])
+        ]
+    ])
 
 # models
 model = dict(
