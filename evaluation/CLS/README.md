@@ -18,6 +18,6 @@ python3 -m torch.distributed.launch --nproc_per_node=1 --master_port=29500 train
 |     Initialization    | Backbone | Pretraining | Pretraining data |   top1  |   top5  |
 |:---------------------:|:--------:|:-----------:|:----------------:|:-------:|:-------:|
 | Random Initialization | Resnet50 |      -      |         -        | 58.0250 | 95.7250 |
-| Random Initialization | Resnet50 |  Simclr     | train+unlabeled  | 63.0625 | 96.7875 |
+| Random Initialization | Resnet50 |  Simclr     | train+unlabeled  | 88.1250 | 99.7250 |
 |  Supervised Imagenet  | Resnet50 |      -      |         -        | 91.2125 | 99.4500 |
-|  Supervised Imagenet  | Resnet50 |  Simclr     | train+unlabeled  |         |         |
+|  Supervised Imagenet  | Resnet50 |  Simclr     | train+unlabeled  | 89.0500 | 99.6250 |
