@@ -5,50 +5,14 @@ from .builder import DATASETS
 @DATASETS.register_module()
 class SimclrDataset(BaseDataset):
 
-    CLASSES = None
-
-    def __init__(self, pipelines, img_dir, img_suffix='.png', data_root=None):
+    def __init__(self, datasource, pipelines):
         super(SimclrDataset, self).__init__(
+            datasource=datasource,
             pipelines=pipelines,
-            img_dir=img_dir,
-            img_suffix=img_suffix,
-            data_root=data_root,
         )
 
     def __getitem__(self, idx):
-        data1 = self.pipelines(self.img_infos[idx])
-        data2 = self.pipelines(self.img_infos[idx])
-        img1 = data1['img']
-        img2 = data2['img']
+        img = self.datasource.get_img(idx)
+        img1 = self.pipelines(dict(img=img))['img']
+        img2 = self.pipelines(dict(img=img))['img']
         return dict(img=[img1, img2])
-
-
-@DATASETS.register_module()
-class ListSimclrDataset(SimclrDataset):
-
-    def __init__(self, pipelines, txt_file):
-
-        self.txt_file = txt_file
-
-        super(SimclrDataset, self).__init__(
-            pipelines=pipelines,
-            img_dir='',
-            img_suffix='',
-            data_root=None,
-        )
-
-    def load_images(self, img_dir, img_suffix):
-
-        f = open(self.txt_file, 'r')
-        img_infos = list()
-        while True:
-            line = f.readline()
-            if not line:
-                break
-            line = line.replace('\n', '')
-            img_info = dict(filename=line)
-            img_infos.append(img_info)
-
-        f.close()
-
-        return img_infos

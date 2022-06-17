@@ -31,7 +31,7 @@ mp_start_method = 'fork'
 
 # schedule
 # optimizer
-optimizer = dict(type='SGD', lr=1.2, weight_decay=1e-6, momentum=0.9)
+optimizer = dict(type='LARS', lr=1.2, weight_decay=1e-6, momentum=0.9)
 optimizer_config = dict()  # grad_clip, coalesce, bucket_size_mb
 
 # learning policy
@@ -47,13 +47,12 @@ lr_config = dict(
 runner = dict(type='EpochBasedRunner', max_epochs=1000)
 
 # data
-
 train_pipeline = [
-    dict(type='LoadImageFromFile'),
     dict(type='Resize', img_size=(224, 224), ratio_range=(0.8, 1.5)),
     dict(type='RandomCrop', crop_size=(224, 224)),
     dict(type='Pad', size_divisor=224),
     dict(type='RandomFlip', prob=0.5, direction='horizontal'),
+    dict(type='RandomRotate', prob=0.5, degree=(-20, 20)),
     dict(type='PhotoMetricDistortion', prob=0.5),
     dict(type='GaussianBlur'),
     dict(
@@ -66,12 +65,15 @@ train_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=256 + 128,
+    samples_per_gpu=384,
     workers_per_gpu=32,
     train=dict(
-        type='ListSimclrDataset',
+        type='SimclrDataset',
+        datasource=dict(
+            type='BaseDataSource',
+            ann_file='/nas/k8s/dev/mlops/chagmgang/dataset/tot.txt',
+        ),
         pipelines=train_pipeline,
-        txt_file='/nas/k8s/dev/mlops/chagmgang/dataset/tot.txt',
     ),
 )
 

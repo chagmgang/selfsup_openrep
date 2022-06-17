@@ -21,8 +21,13 @@ if platform.system() != 'Windows':
     soft_limit = min(max(4096, base_soft_limit), hard_limit)
     resource.setrlimit(resource.RLIMIT_NOFILE, (soft_limit, hard_limit))
 
+DATASOURCES = Registry('datasource')
 DATASETS = Registry('dataset')
 PIPELINES = Registry('pipelines')
+
+
+def build_datasource(cfg, default_args=None):
+    return build_from_cfg(cfg, DATASOURCES, default_args)
 
 
 def build_dataset(cfg, default_args=None):

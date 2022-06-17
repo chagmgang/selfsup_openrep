@@ -7,7 +7,7 @@ from ..builder import PIPELINES
 @PIPELINES.register_module()
 class Collect(object):
 
-    def __init__(self, keys=['img', 'filename']):
+    def __init__(self, keys=['img']):
 
         self.keys = keys
         self.to_tensor = torchvision.transforms.ToTensor()
