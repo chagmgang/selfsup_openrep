@@ -4,13 +4,13 @@ checkpoint_config = dict(interval=40)
 
 # yapf:disable
 log_config = dict(
-    interval=1,
+    interval=50,
     hooks=[
         dict(type='TextLoggerHook'),
         dict(
             type='CustomMlflowLoggerHook',
             exp_name='SSL',
-            run_name='remote-resnet50-simclr',
+            run_name='stl10-resnet50-mocov3',
         ),
     ])
 # yapf:enable
@@ -49,7 +49,7 @@ lr_config = dict(
     warmup_by_epoch=True)
 
 # runtime settings
-runner = dict(type='EpochBasedRunner', max_epochs=1000)
+runner = dict(type='EpochBasedRunner', max_epochs=1)
 
 # data
 train_pipeline = [
