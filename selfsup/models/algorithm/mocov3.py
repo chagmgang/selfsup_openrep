@@ -101,8 +101,6 @@ class MocoV3(BaseModel):
         update(self.backbone, self.momentum_backbone)
         update(self.projection, self.momentum_projection)
 
-        print('update done', self.cur_momentum, self.base_momentum)
-
     def forward_train(self, img, **kwargs):
 
         img1 = img[0]
