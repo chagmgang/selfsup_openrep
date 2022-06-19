@@ -92,13 +92,14 @@ class DINO(BaseModel):
         x = self.backbone(img)[-1]
         x = self.gap(x)
         x = self.flatten(x)
-        return self.projection(x)
+        x = self.projection(x)
+        return torch.nn.functional.normalize(x, dim=1)
 
     def get_student_feature(self, img):
         x = self.student_backbone(img)[-1]
         x = self.gap(x)
         x = self.flatten(x)
-        return self.student_projection(x)
+        return torch.nn.functional.normalize(x, dim=1)
 
     def update_centering(self, teachers):
         all_teachers = [concat_all_gather(t) for t in teachers]
@@ -108,6 +109,7 @@ class DINO(BaseModel):
             1 - self.center_momentum) * batch_mean
 
     def distillation(self, s, t):
+
         s = F.log_softmax(s / self.cur_student_temp, dim=-1)
         t = F.softmax((t - self.center) / self.cur_teacher_temp, dim=-1)
         loss = torch.sum(-t * s, dim=-1)
