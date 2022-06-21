@@ -1,4 +1,4 @@
-## Downstream task in DOTA 2.0 Dataset by mmdetection
+## Downstream task in Inria Dataset by mmsegmentation
 ---
 
 ### Introduction
