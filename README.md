@@ -27,9 +27,9 @@ This project is to provide remote sensing imagery weight file for better perform
 |     Initialization    | Backbone | Pretraining | Pretraining data |   top1  |   top5  |
 |:---------------------:|:--------:|:----------------:|:-------:|:-------:|:-------:|
 | Random Initialization | Resnet50 |      -      |         -        | 58.0250 | 95.7250 |
-| Random Initialization | Resnet50 |  Simclr     | train+unlabeled  | 88.1250 | 99.7250 |
+| Random Initialization | Resnet50 |  MocoV3     | train+unlabeled  | 82.3750 | 99.0750 |
+| Random Initialization | Resnet50 |  Simclr     | train+unlabeled  | 89.0500 | 99.6250 |
 |  Supervised Imagenet  | Resnet50 |      -      |         -        | 91.2125 | 99.4500 |
-|  Supervised Imagenet  | Resnet50 |  Simclr     | train+unlabeled  | 89.0500 | 99.6250 |
 
 
 #### Downstream task
