@@ -4,7 +4,7 @@ model = dict(
         type='SelfSupBackbone',
         model_name='ResNet50',
         pretrained=None,
-        weight='/nas/k8s/dev/mlops/chagmgang/checkpoint/test_selfsup/40000.pth',
+        weight='/selfsup_openrep/work_dirs/dino_stl10.py/dino_stl10/latest.pth',
     ),
     neck=dict(type='GlobalAveragePooling', ),
     head=dict(
@@ -23,7 +23,7 @@ data = dict(
     samples_per_gpu=32,
     workers_per_gpu=4,
     train=dict(
-        type='TrainTorchvisionSTL10',
+        type='TrainSTL10',
         data_prefix=None,
         pipeline=[
             dict(type='RandomResizedCrop', size=96),
@@ -39,7 +39,7 @@ data = dict(
         ],
     ),
     val=dict(
-        type='TestTorchvisionSTL10',
+        type='TestSTL10',
         data_prefix=None,
         pipeline=[
             dict(type='Resize', size=(96, -1)),

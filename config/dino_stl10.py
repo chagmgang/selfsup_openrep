@@ -37,7 +37,7 @@ mp_start_method = 'fork'
 
 # schedule
 # optimizer
-optimizer = dict(type='LARS', lr=0.75, weight_decay=1e-6, momentum=0.9)
+optimizer = dict(type='LARS', lr=4.8, weight_decay=1e-6, momentum=0.9)
 optimizer_config = dict()  # grad_clip, coalesce, bucket_size_mb
 
 # learning policy
@@ -54,11 +54,12 @@ runner = dict(type='EpochBasedRunner', max_epochs=1600)
 
 # data
 global_pipelines = [
-    dict(type='Resize', img_size=(96, 96), ratio_range=(0.8, 1.5)),
+    dict(type='Resize', img_size=(96, 96), ratio_range=(0.8, 1.2)),
     dict(type='RandomCrop', crop_size=(96, 96)),
     dict(type='Pad', size_divisor=96),
     dict(type='RandomFlip', prob=0.5, direction='horizontal'),
-    dict(type='RandomRotate', prob=0.5, degree=(-20, 20)),
+    dict(type='RandomFlip', prob=0.5, direction='vertical'),
+    dict(type='RandomRotate', prob=0.5, degree=(-45, 45)),
     dict(type='PhotoMetricDistortion', prob=0.5),
     dict(type='GaussianBlur'),
     dict(
@@ -71,11 +72,12 @@ global_pipelines = [
 ]
 
 local_pipelines = [
-    dict(type='Resize', img_size=(96, 96), ratio_range=(0.8, 1.5)),
+    dict(type='Resize', img_size=(96, 96), ratio_range=(0.8, 1.2)),
     dict(type='RandomCrop', crop_size=(48, 48)),
     dict(type='Pad', size_divisor=48),
     dict(type='RandomFlip', prob=0.5, direction='horizontal'),
-    dict(type='RandomRotate', prob=0.5, degree=(-20, 20)),
+    dict(type='RandomFlip', prob=0.5, direction='vertical'),
+    dict(type='RandomRotate', prob=0.5, degree=(-45, 45)),
     dict(type='PhotoMetricDistortion', prob=0.5),
     dict(type='GaussianBlur'),
     dict(
@@ -88,7 +90,7 @@ local_pipelines = [
 ]
 
 data = dict(
-    samples_per_gpu=1024,
+    samples_per_gpu=512,
     workers_per_gpu=8,
     train=dict(
         type='DinoDataset',
@@ -98,7 +100,7 @@ data = dict(
         ),
         global_pipelines=global_pipelines,
         local_pipelines=local_pipelines,
-        global_ncrop=1,
+        global_ncrop=2,
         local_ncrop=6,
     ),
 )
