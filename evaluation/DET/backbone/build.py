@@ -27,7 +27,7 @@ class SelfSupBackbone(nn.Module):
         new_state_dict = OrderedDict()
         for key in model_state_dict.keys():
             value = model_state_dict[key]
-            new_key = key.replace('module.backbone.', '')
+            new_key = key.replace('backbone.', '')
             new_state_dict[new_key] = value
 
         return new_state_dict
