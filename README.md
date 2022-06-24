@@ -16,8 +16,8 @@ This project is to provide remote sensing imagery weight file for better perform
 ### Backbone
 
 * [x] [Resnet](https://arxiv.org/abs/1512.03385)
-* [ ] [Swin transformer](https://arxiv.org/abs/2103.14030)
-* [ ] [Convnext](https://arxiv.org/abs/2201.03545)
+* [x] [Swin transformer](https://arxiv.org/abs/2103.14030)
+* [x] [Convnext](https://arxiv.org/abs/2201.03545)
 
 ### Performance
 
