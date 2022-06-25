@@ -30,8 +30,6 @@ This project is to provide remote sensing imagery weight file for better perform
 | Random Initialization | Resnet50     |  MocoV3     | train+unlabeled  | 82.3750 | 99.0750 |
 | Random Initialization | Resnet50     |  Dino       | train+unlabeled  | 83.1925 | 99.3750 |
 | Random Initialization | Resnet50     |  Simclr     | train+unlabeled  | 89.0500 | 99.6250 |
-| Random Initialization | TinySwin     |  Simclr     | train+unlabeled  |         |         |
-| Random Initialization | TinyConvnext |  Simclr     | train+unlabeled  |         |         |
 |  Supervised Imagenet  | Resnet50     |      -      |         -        | 91.2125 | 99.4500 |
 
 
