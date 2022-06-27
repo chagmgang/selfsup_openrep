@@ -1,6 +1,7 @@
 addict
 albumentations
 boto3
+einops
 mlflow
 mmcv-full==1.4.7 -f https://download.openmmlab.com/mmcv/dist/cu110/torch1.7.0/index.html
 opencv-python-headless==4.5.4.58
