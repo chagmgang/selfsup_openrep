@@ -3,6 +3,8 @@ import torch.nn as nn
 from einops import rearrange, repeat
 from einops.layers.torch import Rearrange
 
+from ..builder import BACKBONES
+
 # helpers
 
 
@@ -162,6 +164,7 @@ class ViT(nn.Module):
         return out_features
 
 
+@BACKBONES.register_module()
 class ViTSmall(ViT):
 
     def __init__(self, image_size, patch_size):
@@ -176,6 +179,7 @@ class ViTSmall(ViT):
         )
 
 
+@BACKBONES.register_module()
 class ViTBase(ViT):
 
     def __init__(self, image_size, patch_size):
@@ -190,6 +194,7 @@ class ViTBase(ViT):
         )
 
 
+@BACKBONES.register_module()
 class ViTLarge(ViT):
 
     def __init__(self, image_size, patch_size):
@@ -204,6 +209,7 @@ class ViTLarge(ViT):
         )
 
 
+@BACKBONES.register_module()
 class ViTHuge(ViT):
 
     def __init__(self, image_size, patch_size):

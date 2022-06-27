@@ -4,21 +4,16 @@ checkpoint_config = dict(interval=40)
 
 # yapf:disable
 log_config = dict(
-    interval=50,
+    interval=25,
     hooks=[
         dict(type='TextLoggerHook'),
         dict(
             type='CustomMlflowLoggerHook',
             exp_name='SSL',
-            run_name='stl10-resnet50-mocov3',
+            run_name='remote-resnet50-simclr',
         ),
     ])
 # yapf:enable
-
-# custom hook
-custom_hooks = [
-    dict(type='MomentumUpdateHook'),
-]
 
 # runtime settings
 dist_params = dict(backend='nccl')
@@ -36,7 +31,7 @@ mp_start_method = 'fork'
 
 # schedule
 # optimizer
-optimizer = dict(type='LARS', lr=0.75, weight_decay=1e-6, momentum=0.9)
+optimizer = dict(type='LARS', lr=1.2, weight_decay=1e-6, momentum=0.9)
 optimizer_config = dict()  # grad_clip, coalesce, bucket_size_mb
 
 # learning policy
@@ -49,15 +44,17 @@ lr_config = dict(
     warmup_by_epoch=True)
 
 # runtime settings
-runner = dict(type='EpochBasedRunner', max_epochs=1600)
+runner = dict(type='EpochBasedRunner', max_epochs=1000)
 
 # data
 train_pipeline = [
-    dict(type='Resize', img_size=(96, 96), ratio_range=(0.8, 1.5)),
+    dict(type='Resize', img_size=(96, 96), ratio_range=(0.8, 1.2)),
     dict(type='RandomCrop', crop_size=(96, 96)),
     dict(type='Pad', size_divisor=96),
     dict(type='RandomFlip', prob=0.5, direction='horizontal'),
+    dict(type='RandomFlip', prob=0.5, direction='vertical'),
     dict(type='RandomRotate', prob=0.5, degree=(-20, 20)),
+    dict(type='Solarization', prob=0.2),
     dict(type='PhotoMetricDistortion', prob=0.5),
     dict(type='GaussianBlur'),
     dict(
@@ -70,7 +67,7 @@ train_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=768,
+    samples_per_gpu=384,
     workers_per_gpu=32,
     train=dict(
         type='SimclrDataset',
@@ -84,16 +81,16 @@ data = dict(
 
 # models
 model = dict(
-    type='MocoV3',
+    type='Simclr',
     backbone=dict(
-        type='ResNet50',
-        pretrained=False,
-        weight=None,
+        type='ViTLarge',
+        image_size=96,
+        patch_size=16,
     ),
     projection=dict(
         type='BaseProjection',
-        input_dim=2048,
-        hidden_dim=2048,
-        last_dim=2048,
+        input_dim=1024,
+        hidden_dim=1024,
+        last_dim=1024,
     ),
 )
