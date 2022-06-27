@@ -10,7 +10,7 @@ log_config = dict(
         dict(
             type='CustomMlflowLoggerHook',
             exp_name='SSL',
-            run_name='remote-resnet50-simclr',
+            run_name='stl10-vit-mocov3',
         ),
     ])
 # yapf:enable
@@ -31,7 +31,8 @@ mp_start_method = 'fork'
 
 # schedule
 # optimizer
-optimizer = dict(type='LARS', lr=1.2, weight_decay=1e-6, momentum=0.9)
+optimizer = dict(
+    type='AdamW', lr=1.25e-4, weight_decay=1e-3, betas=(0.9, 0.999))
 optimizer_config = dict()  # grad_clip, coalesce, bucket_size_mb
 
 # learning policy
@@ -39,12 +40,12 @@ lr_config = dict(
     policy='CosineAnnealing',
     min_lr=0.,
     warmup='linear',
-    warmup_iters=1,
+    warmup_iters=40,
     warmup_ratio=1e-4,  # cannot be 0
     warmup_by_epoch=True)
 
 # runtime settings
-runner = dict(type='EpochBasedRunner', max_epochs=1000)
+runner = dict(type='EpochBasedRunner', max_epochs=3200)
 
 # data
 train_pipeline = [
@@ -67,8 +68,8 @@ train_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=384,
-    workers_per_gpu=32,
+    samples_per_gpu=128,
+    workers_per_gpu=8,
     train=dict(
         type='SimclrDataset',
         datasource=dict(
@@ -81,7 +82,7 @@ data = dict(
 
 # models
 model = dict(
-    type='Simclr',
+    type='MocoV3',
     backbone=dict(
         type='ViTLarge',
         image_size=96,
@@ -93,4 +94,5 @@ model = dict(
         hidden_dim=1024,
         last_dim=1024,
     ),
+    start_momentum=0.99,
 )
