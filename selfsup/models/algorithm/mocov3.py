@@ -63,7 +63,6 @@ class MocoV3(BaseModel):
 
     def get_feature(self, img):
         x = self.backbone(img)[-1]
-        print(x.shape)
         x = self.gap(x)
         x = self.flatten(x)
         x = self.projection(x)
