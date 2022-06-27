@@ -198,7 +198,7 @@ class ViTBase(ViT):
 class ViTLarge(ViT):
 
     def __init__(self, image_size, patch_size):
-        super(ViTBase, self).__init__(
+        super(ViTLarge, self).__init__(
             image_size=image_size,
             patch_size=patch_size,
             dim=1024,
@@ -213,7 +213,7 @@ class ViTLarge(ViT):
 class ViTHuge(ViT):
 
     def __init__(self, image_size, patch_size):
-        super(ViTBase, self).__init__(
+        super(ViTHuge, self).__init__(
             image_size=image_size,
             patch_size=patch_size,
             dim=1280,
