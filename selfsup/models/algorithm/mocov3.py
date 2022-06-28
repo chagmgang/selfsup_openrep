@@ -27,6 +27,7 @@ class MocoV3(BaseModel):
     def __init__(self,
                  backbone,
                  projection,
+                 prediction,
                  temperature=0.1,
                  start_momentum=0.996,
                  init_cfg=None):
@@ -34,7 +35,7 @@ class MocoV3(BaseModel):
 
         self.backbone = build_backbone(backbone)
         self.projection = build_projection(projection)
-        self.prediction = build_projection(projection)
+        self.prediction = build_projection(prediction)
 
         self.momentum_backbone = build_backbone(backbone)
         self.momentum_projection = build_projection(projection)
