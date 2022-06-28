@@ -1,1 +1,1 @@
-from .base import BaseProjection
+from .base import BaseProjection, BatchNormProjection

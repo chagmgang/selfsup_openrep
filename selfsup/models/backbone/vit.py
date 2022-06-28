@@ -51,7 +51,7 @@ class Attention(nn.Module):
         self.attend = nn.Softmax(dim=-1)
         self.dropout = nn.Dropout(dropout)
 
-        self.to_qkv = nn.Linear(dim, inner_dim * 3, bias=False)
+        self.to_qkv = nn.Linear(dim, inner_dim * 3, bias=True)
 
         self.to_out = nn.Sequential(
             nn.Linear(inner_dim, dim),
@@ -111,8 +111,8 @@ class ViT(nn.Module):
         mlp_dim,  # hidden dim of ffn
         dim_head,  # dim of mhsa
         channels=3,
-        dropout=0.,
-        emb_dropout=0.,
+        dropout=0.2,
+        emb_dropout=0.2,
         out_index=(3, 5, 7, 11)):  # noqa: E125
         super(ViT, self).__init__()
 

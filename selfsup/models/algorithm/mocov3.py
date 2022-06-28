@@ -79,7 +79,7 @@ class MocoV3(BaseModel):
         k = torch.nn.functional.normalize(k, dim=1)
         k = concat_all_gather(k)
 
-        logits = torch.einsum('nc,mc->nm', [q, k])
+        logits = torch.einsum('nc,mc->nm', [q, k]) / self.temperature
         N = logits.shape[0]
         labels = (
             torch.arange(N, dtype=torch.long) +  # noqa: W504
