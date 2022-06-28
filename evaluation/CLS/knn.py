@@ -35,9 +35,6 @@ def extract_features(model, data_loader, use_cuda=True):
         features.append(feature[0])
         labels.append(label[0])
 
-        if len(features) == 1000:
-            break
-
     features = torch.stack(features)
     labels = torch.stack(labels)
 
@@ -145,6 +142,9 @@ def main():
         k=20,
         T=0.1,
         num_classes=10)
+
+    print(top1)
+    print(top5)
 
 
 if __name__ == '__main__':
