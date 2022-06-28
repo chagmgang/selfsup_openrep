@@ -19,8 +19,8 @@ python3 knn.py --config-file {config_file}
 ```
 
 ### Performance
-|     Initialization    | Backbone | Pretraining | Pretraining data |   top1  |   top5  |
-|:---------------------:|:--------:|:-----------:|:----------------:|:-------:|:-------:|
-| Random Initialization | Resnet50 |      -      |         -        | 58.0250 | 95.7250 |
-| Random Initialization | Resnet50 |  Simclr     | train+unlabeled  | 89.0500 | 99.6250 |
-|  Supervised Imagenet  | Resnet50 |      -      |         -        | 91.2125 | 99.4500 |
+|     Initialization    | Backbone     | Pretraining | Pretraining data |   top1  |   top5  |   knn(20) top 1  |   knn(20) top 5  |
+|:---------------------:|:------------:|:-----------:|:----------------:|:-------:|:-------:|:----------------:|:----------------:|
+| Random Initialization | Resnet50     |      -      |         -        | 58.0250 | 95.7250 |         -        |         -        |
+| Random Initialization | Resnet50     |  Simclr     | train+unlabeled  | 89.0500 | 99.6250 |      60.6750     |      92.6000     |
+|  Supervised Imagenet  | Resnet50     |      -      |         -        | 91.2125 | 99.4500 |       6.2000     |      40.2125     |
