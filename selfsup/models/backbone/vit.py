@@ -3,6 +3,7 @@ from functools import partial
 import torch
 import torch.nn as nn
 
+from ..builder import BACKBONES
 from .utils import DropPath
 
 
@@ -273,6 +274,7 @@ class VisionTransformer(nn.Module):
         return features
 
 
+@BACKBONES.register_module()
 class TinyViT(VisionTransformer):
 
     def __init__(self, image_size, patch_size):
@@ -287,6 +289,7 @@ class TinyViT(VisionTransformer):
         )
 
 
+@BACKBONES.register_module()
 class SmallViT(VisionTransformer):
 
     def __init__(self, image_size, patch_size):
@@ -301,6 +304,7 @@ class SmallViT(VisionTransformer):
         )
 
 
+@BACKBONES.register_module()
 class BaseViT(VisionTransformer):
 
     def __init__(self, image_size, patch_size):
@@ -315,6 +319,7 @@ class BaseViT(VisionTransformer):
         )
 
 
+@BACKBONES.register_module()
 class LargeViT(VisionTransformer):
 
     def __init__(self, image_size, patch_size):
@@ -329,6 +334,7 @@ class LargeViT(VisionTransformer):
         )
 
 
+@BACKBONES.register_module()
 class GiantViT(VisionTransformer):
 
     def __init__(self, image_size, patch_size):
@@ -344,6 +350,7 @@ class GiantViT(VisionTransformer):
         )
 
 
+@BACKBONES.register_module()
 class GiganticViT(VisionTransformer):
 
     def __init__(self, image_size, patch_size):
