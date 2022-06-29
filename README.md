@@ -51,3 +51,7 @@ This project is to provide remote sensing imagery weight file for better perform
 * https://github.com/open-mmlab/mmrotate
 * https://captain-whu.github.io/DOTA/dataset.html
 * https://project.inria.fr/aerialimagelabeling/
+* https://gcheng-nwpu.github.io/
+* https://spacenet.ai/sn6-challenge/
+* http://gaofen-challenge.com/benchmark
+* https://www.cosmiqworks.org/rareplanes/
