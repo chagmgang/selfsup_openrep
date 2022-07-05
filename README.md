@@ -19,6 +19,17 @@ This project is to provide remote sensing imagery weight file for better perform
 * [x] [Swin transformer](https://arxiv.org/abs/2103.14030)
 * [x] [Convnext](https://arxiv.org/abs/2201.03545)
 
+### Pretraining Dataset
+
+* [spacenet6](https://spacenet.ai/sn6-challenge/)
+* [dior](https://arxiv.org/abs/2110.01931)
+* [fair1m v2.0](http://gaofen-challenge.com/benchmark)
+* [nia building segmentation](https://github.com/SIAnalytics/buildingdetection2020)
+* [nia object detection](https://github.com/SIAnalytics/roas)
+* [inria](https://project.inria.fr/aerialimagelabeling/)
+* [dota 2.0](https://captain-whu.github.io/DOTA/dataset.html)
+* [rareplane](https://www.cosmiqworks.org/rareplanes/)
+
 ### Performance
 
 #### Prove that the algorithm works properly
