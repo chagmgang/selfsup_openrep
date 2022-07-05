@@ -31,5 +31,5 @@ python3 -m torch.distributed.launch --nproc_per_node=1 --master_port=29500 train
 |     Initialization    | Backbone | Pretraining | Pretraining data |  *mAP* |  background  |   building  |
 |:---------------------:|:--------:|:-----------:|:----------------:|:------:|:------------:|:-----------:|
 | Random Initialization | Resnet50 |      -      |         -        | *65.1* | 88.68        | 41.52       |
-| Random Initialization | Resnet50 |      o      |  remote sensing  | *82.23*| 94.14        | 70.33       |
+| Random Initialization | Resnet50 |   Simclr    |  remote sensing  | *82.23*| 94.14        | 70.33       |
 | Supervised Imagenet   | Resnet50 |      -      |         -        | *77.43*| 92.58        | 62.27       |
