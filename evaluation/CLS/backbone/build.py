@@ -10,12 +10,12 @@ from selfsup.models import backbone
 @BACKBONES.register_module()
 class SelfSupViT(nn.Module):
 
-    def __init__(self, model_name, image_size, patch_size, weight=None):
+    def __init__(self, model_name, img_size, patch_size, weight=None):
         super(SelfSupViT, self).__init__()
 
         model_module = getattr(backbone, model_name)
         self.model = model_module(
-            image_size=image_size,
+            img_size=img_size,
             patch_size=patch_size,
         )
 
