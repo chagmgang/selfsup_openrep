@@ -38,7 +38,7 @@ class DINO(BaseModel):
         super(DINO, self).__init__(init_cfg)
 
         self.center_momentum = center_momentum
-        self.center = torch.zeros(1, projection.last_dim).cuda()
+        self.center = torch.zeros(1, projection.out_dim).cuda()
 
         self.student_backbone = build_backbone(backbone)
         self.student_projection = build_projection(projection)
@@ -93,14 +93,14 @@ class DINO(BaseModel):
         x = self.gap(x)
         x = self.flatten(x)
         x = self.projection(x)
-        return torch.nn.functional.normalize(x, dim=1)
+        return x
 
     def get_student_feature(self, img):
         x = self.student_backbone(img)[-1]
         x = self.gap(x)
         x = self.flatten(x)
         x = self.student_projection(x)
-        return torch.nn.functional.normalize(x, dim=1)
+        return x
 
     def update_centering(self, teachers):
         all_teachers = [concat_all_gather(t) for t in teachers]
