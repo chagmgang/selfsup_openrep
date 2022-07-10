@@ -38,7 +38,7 @@ class DINO(BaseModel):
         super(DINO, self).__init__(init_cfg)
 
         self.center_momentum = center_momentum
-        self.center = torch.zeros(1, projection.last_dim).cuda()
+        self.center = torch.zeros(1, projection.out_dim).cuda()
 
         self.student_backbone = build_backbone(backbone)
         self.student_projection = build_projection(projection)
