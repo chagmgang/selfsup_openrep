@@ -93,14 +93,14 @@ class DINO(BaseModel):
         x = self.gap(x)
         x = self.flatten(x)
         x = self.projection(x)
-        return torch.nn.functional.normalize(x, dim=1)
+        return x
 
     def get_student_feature(self, img):
         x = self.student_backbone(img)[-1]
         x = self.gap(x)
         x = self.flatten(x)
         x = self.student_projection(x)
-        return torch.nn.functional.normalize(x, dim=1)
+        return x
 
     def update_centering(self, teachers):
         all_teachers = [concat_all_gather(t) for t in teachers]
