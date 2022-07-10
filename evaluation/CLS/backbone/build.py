@@ -10,7 +10,12 @@ from selfsup.models import backbone
 @BACKBONES.register_module()
 class SelfSupViT(nn.Module):
 
-    def __init__(self, model_name, img_size, patch_size, weight=None):
+    def __init__(self,
+                 model_name,
+                 img_size,
+                 patch_size,
+                 weight=None,
+                 unfreeze_patch=False):
         super(SelfSupViT, self).__init__()
 
         model_module = getattr(backbone, model_name)
@@ -23,15 +28,23 @@ class SelfSupViT(nn.Module):
             model_state_dict = self.load_from(weight)
             print(self.model.load_state_dict(model_state_dict, strict=False))
 
+        if unfreeze_patch:
+            self.unfreeze_patch_embed()
+
+    def unfreeze_patch_embed(self):
+        self.model.patch_embed.proj.weight.requires_grad = True
+        self.model.patch_embed.proj.bias.requires_grad = True
+
     def load_from(self, weight):
         state_dict = torch.load(weight, map_location='cpu')
         model_state_dict = state_dict['state_dict']
 
         new_state_dict = OrderedDict()
         for key in model_state_dict.keys():
-            value = model_state_dict[key]
-            new_key = key.replace('backbone.', '')
-            new_state_dict[new_key] = value
+            if key.startswith('backbone.'):
+                value = model_state_dict[key]
+                new_key = key.replace('backbone.', '')
+                new_state_dict[new_key] = value
 
         return new_state_dict
 
