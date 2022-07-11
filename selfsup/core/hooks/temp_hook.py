@@ -29,20 +29,22 @@ class DINOTemperatureUpdateHook(Hook):
             )  # noqa: E126
 
         if self.every_n_iters(runner, self.update_interval):
-            cur_epoch = runner.epoch
+
+            cur_iter = runner.iter
+            max_iter = len(runner.data_loader) * self.warmup_epoch
 
             cur_teacher_temp = self.get_linear(
                 start_value=runner.model.module.start_teacher_temp,
                 end_value=runner.model.module.end_teacher_temp,
-                cur_iter=cur_epoch,
-                max_iter=self.warmup_epoch,
+                cur_iter=cur_iter,
+                max_iter=max_iter,
             )
 
             cur_student_temp = self.get_linear(
                 start_value=runner.model.module.start_student_temp,
                 end_value=runner.model.module.end_student_temp,
-                cur_iter=cur_epoch,
-                max_iter=self.warmup_epoch,
+                cur_iter=cur_iter,
+                max_iter=max_iter,
             )
 
             runner.model.module.cur_teacher_temp = cur_teacher_temp
