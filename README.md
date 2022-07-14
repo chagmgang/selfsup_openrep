@@ -33,13 +33,14 @@ This project is to provide remote sensing imagery weight file for better perform
 ### Performance
 
 #### Prove that the algorithm works properly
-* This table shows that the only algorithm works properly with `STL10` Dataset.
+* This table shows that the only algorithm works properly with imagenet-1k dataset.
+* knn is applied with 20 samples
 
-|     Initialization    | Backbone     | Pretraining | Pretraining data |   finetune top1  |   finetune top5  |   knn(20) top 1  |   knn(20) top 5  |
-|:---------------------:|:------------:|:-----------:|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|
-| Random Initialization | Resnet50     |      -      |         -        |      58.0250     |     95.7250      |         -        |         -        |
-| Random Initialization | Resnet50     |  Simclr     | train+unlabeled  |      89.0500     |     99.6250      |      60.6750     |      92.6000     |
-|  Supervised Imagenet  | Resnet50     |      -      |         -        |      91.2125     |     99.4500      |       6.2000     |      40.2125     |
+|      Backbone     | resolution | Pretraining | finetune top1  |   finetune top5  |   knn(20) top 1  |   knn(20) top 5  | weight |
+|:------------:|:-----------:|:-----------:|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|
+|  Resnet50     |  224x224 |    Simclr      |         -        |      -     |     -      |         -        | [model](https://drive.google.com/file/d/15P7Ss_2Bhdbeb1jRGTxfHr5xaVLw-pbH/view?usp=sharing)/[config](https://drive.google.com/file/d/1SgKtAH6pa3sJlLM0rlyZ3eM_XvETM-an/view?usp=sharing) |
+|  ViT-S/16     | 224x224 |     Moco V3      |         -        |      -     |     -      |         -        | [model](https://drive.google.com/file/d/1HBrTnz6BvNGcLhzzALdf-ljVB6QWiwrl/view?usp=sharing)/[config](https://drive.google.com/file/d/1CG3miiQVbP6o2Qx6w9rWQpN0sGwcSw5n/view?usp=sharing) |
+|  ViT-S/16     |  224x224 |    DINO      |         -        |      -     |     -      |         -        | - |
 
 
 #### Downstream task
