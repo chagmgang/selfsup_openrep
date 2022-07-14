@@ -36,11 +36,11 @@ This project is to provide remote sensing imagery weight file for better perform
 * This table shows that the only algorithm works properly with imagenet-1k dataset.
 * knn is applied with 20 samples
 
-|      Backbone     | resolution | Pretraining | finetune top1  |   finetune top5  |   knn(20) top 1  |   knn(20) top 5  | weight |
-|:------------:|:-----------:|:-----------:|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|
-|  Resnet50     |  224x224 |    Simclr      |         -        |      -     |     -      |         -        | [model](https://drive.google.com/file/d/15P7Ss_2Bhdbeb1jRGTxfHr5xaVLw-pbH/view?usp=sharing)/[config](https://drive.google.com/file/d/1SgKtAH6pa3sJlLM0rlyZ3eM_XvETM-an/view?usp=sharing) |
-|  ViT-S/16     | 224x224 |     Moco V3      |         -        |      -     |     -      |         -        | [model](https://drive.google.com/file/d/1HBrTnz6BvNGcLhzzALdf-ljVB6QWiwrl/view?usp=sharing)/[config](https://drive.google.com/file/d/1CG3miiQVbP6o2Qx6w9rWQpN0sGwcSw5n/view?usp=sharing) |
-|  ViT-S/16     |  224x224 |    DINO      |         -        |      -     |     -      |         -        | - |
+|      Backbone     | resolution | Pretraining | finetune top1  |   finetune top5  | weight |
+|:------------:|:-----------:|:-----------:|:----------------:|:----------------:|:----------------:|
+|  Resnet50     |  224x224 |    Simclr      |         -        |      -     | [model](https://drive.google.com/file/d/15P7Ss_2Bhdbeb1jRGTxfHr5xaVLw-pbH/view?usp=sharing)/[config](https://drive.google.com/file/d/1SgKtAH6pa3sJlLM0rlyZ3eM_XvETM-an/view?usp=sharing) |
+|  ViT-S/16     | 224x224 |     Moco V3      |         -        |      -     | [model](https://drive.google.com/file/d/1HBrTnz6BvNGcLhzzALdf-ljVB6QWiwrl/view?usp=sharing)/[config](https://drive.google.com/file/d/1CG3miiQVbP6o2Qx6w9rWQpN0sGwcSw5n/view?usp=sharing) |
+|  ViT-S/16     |  224x224 |    DINO      |         -        |      -     | - |
 
 
 #### Downstream task
