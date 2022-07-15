@@ -36,7 +36,7 @@ This project is to provide remote sensing imagery weight file for better perform
 * This table shows that the only algorithm works properly with imagenet-1k dataset.
 * knn is applied with 20 samples
 
-|      Backbone     | resolution | Pretraining | finetune top1  |   finetune top5  | weight |
+|      Backbone     | resolution | Pretraining | F-T top1  |   F-T top5  | weight |
 |:------------:|:-----------:|:-----------:|:----------------:|:----------------:|:----------------:|
 |  Resnet50     |  224x224 |    -      |         -        |      -     | - |
 |  Resnet50     |  224x224 |    Simclr      |         72.2440        |      89.9420     | [model](https://drive.google.com/file/d/15P7Ss_2Bhdbeb1jRGTxfHr5xaVLw-pbH/view?usp=sharing)/[config](https://drive.google.com/file/d/1SgKtAH6pa3sJlLM0rlyZ3eM_XvETM-an/view?usp=sharing) |
