@@ -41,7 +41,7 @@ This project is to provide remote sensing imagery weight file for better perform
 |  Resnet50     |  224x224 |    -      |         -        |      -     | - |
 |  Resnet50     |  224x224 |    Simclr      |         72.2440        |      89.9420     | [model](https://drive.google.com/file/d/15P7Ss_2Bhdbeb1jRGTxfHr5xaVLw-pbH/view?usp=sharing)/[config](https://drive.google.com/file/d/1SgKtAH6pa3sJlLM0rlyZ3eM_XvETM-an/view?usp=sharing) |
 |  ViT-S/16     |  224x224 |    -      |         -        |      -     | - |
-|  ViT-S/16     | 224x224 |     Moco V3      |         -        |      -     | [model](https://drive.google.com/file/d/1HBrTnz6BvNGcLhzzALdf-ljVB6QWiwrl/view?usp=sharing)/[config](https://drive.google.com/file/d/1CG3miiQVbP6o2Qx6w9rWQpN0sGwcSw5n/view?usp=sharing) |
+|  ViT-S/16     | 224x224 |     Moco V3      |         71.0860        |      88.9180     | [model](https://drive.google.com/file/d/1HBrTnz6BvNGcLhzzALdf-ljVB6QWiwrl/view?usp=sharing)/[config](https://drive.google.com/file/d/1CG3miiQVbP6o2Qx6w9rWQpN0sGwcSw5n/view?usp=sharing) |
 |  ViT-S/16     |  224x224 |    DINO      |         -        |      -     | - |
 
 
