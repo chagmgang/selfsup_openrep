@@ -15,7 +15,8 @@ class SelfSupViT(nn.Module):
                  img_size,
                  patch_size,
                  weight=None,
-                 unfreeze_patch=False):
+                 unfreeze_patch=False,
+                 freeze_all=False):
         super(SelfSupViT, self).__init__()
 
         model_module = getattr(backbone, model_name)
@@ -30,6 +31,14 @@ class SelfSupViT(nn.Module):
 
         if unfreeze_patch:
             self.unfreeze_patch_embed()
+
+        if freeze_all:
+            self.freeze_all()
+
+    def freeze_all(self):
+
+        for param in self.parameters():
+            param.requires_grad = False
 
     def unfreeze_patch_embed(self):
         self.model.patch_embed.proj.weight.requires_grad = True
@@ -56,7 +65,11 @@ class SelfSupViT(nn.Module):
 @BACKBONES.register_module()
 class SelfSupBackbone(nn.Module):
 
-    def __init__(self, model_name, pretrained=False, weight=None):
+    def __init__(self,
+                 model_name,
+                 pretrained=False,
+                 weight=None,
+                 freeze_all=False):
         super(SelfSupBackbone, self).__init__()
 
         model_module = getattr(backbone, model_name)
@@ -65,6 +78,14 @@ class SelfSupBackbone(nn.Module):
         if weight:
             model_state_dict = self.load_from(weight)
             print(self.model.load_state_dict(model_state_dict, strict=False))
+
+        if freeze_all:
+            self.freeze_all()
+
+    def freeze_all(self):
+
+        for param in self.parameters():
+            param.requires_grad = False
 
     def load_from(self, weight):
         state_dict = torch.load(weight, map_location='cpu')
