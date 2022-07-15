@@ -18,6 +18,7 @@ This project is to provide remote sensing imagery weight file for better perform
 * [x] [Resnet](https://arxiv.org/abs/1512.03385)
 * [x] [Swin transformer](https://arxiv.org/abs/2103.14030)
 * [x] [Convnext](https://arxiv.org/abs/2201.03545)
+* [x] [Vision Transformer](https://arxiv.org/abs/2010.11929)
 
 ### Pretraining Dataset
 
