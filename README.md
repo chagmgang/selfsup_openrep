@@ -36,6 +36,8 @@ This project is to provide remote sensing imagery weight file for better perform
 #### Prove that the algorithm works properly
 * This table shows that the only algorithm works properly with imagenet-1k dataset.
 * finetuning : `10 epoch`, `simple configuration`
+* resnet50 base config : [config](https://github.com/chagmgang/selfsup_openrep/blob/main/evaluation/CLS/config/finetuning_imgnet_resnet50.py)
+* vit small base config : [config](https://github.com/chagmgang/selfsup_openrep/blob/main/evaluation/CLS/config/finetuning_imgnet_vit.py)
 
 |      Backbone     | resolution | Pretraining | F-T top1  |   F-T top5  | weight |
 |:------------:|:-----------:|:-----------:|:----------------:|:----------------:|:----------------:|
