@@ -8,7 +8,7 @@ import numpy as np
 from ..builder import PIPELINES
 from .colorspace import bgr2hsv, hsv2bgr
 from .geometric import impad, impad_to_multiple
-from .utils import imflip, imrotate
+from .utils import imflip, imrotate, stretch_image
 
 cv2_interp_codes = {
     'nearest': cv2.INTER_NEAREST,
@@ -17,6 +17,43 @@ cv2_interp_codes = {
     'area': cv2.INTER_AREA,
     'lanczos': cv2.INTER_LANCZOS4
 }
+
+
+@PIPELINES.register_module()
+class RandomStretch(object):
+
+    def __init__(self,
+                 min_percentile_range=(0.0, 3.0),
+                 max_percentile_range=(97.0, 100.0),
+                 new_max=255.0):
+
+        assert isinstance(min_percentile_range, tuple)
+        assert len(min_percentile_range) == 2
+        assert isinstance(max_percentile_range, tuple)
+        assert len(max_percentile_range) == 2
+
+        self.min_percentile_range = min_percentile_range
+        self.max_percentile_range = max_percentile_range
+        self.new_max = new_max
+
+    def __call__(self, results):
+
+        min_percentile = np.random.uniform(self.min_percentile_range[0],
+                                           self.min_percentile_range[1])
+        max_percentile = np.random.uniform(self.max_percentile_range[0],
+                                           self.max_percentile_range[1])
+        clipped_min_val = np.random.uniform(0, 10)
+
+        img = results['img']
+        img = stretch_image(
+            img,
+            new_max=self.new_max,
+            min_percentile=min_percentile,
+            max_percentile=max_percentile,
+            clipped_min_val=clipped_min_val,
+        ).astype('uint8')
+        results['img'] = np.array(img)
+        return results
 
 
 @PIPELINES.register_module()
