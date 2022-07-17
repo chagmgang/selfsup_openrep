@@ -45,7 +45,7 @@ This project is to provide remote sensing imagery weight file for better perform
 |  ViT-S/16     |  224x224 |    -      |         55.0820        |      78.1540     | - |
 |  Resnet50     |  224x224 |    Simclr      |         60.6960        |      83.7180     | [model](https://drive.google.com/file/d/15P7Ss_2Bhdbeb1jRGTxfHr5xaVLw-pbH/view?usp=sharing)/[config](https://drive.google.com/file/d/1SgKtAH6pa3sJlLM0rlyZ3eM_XvETM-an/view?usp=sharing) |
 |  ViT-S/16     | 224x224 |     Moco V3      |         64.4940        |      85.6580     | [model](https://drive.google.com/file/d/1HBrTnz6BvNGcLhzzALdf-ljVB6QWiwrl/view?usp=sharing)/[config](https://drive.google.com/file/d/1CG3miiQVbP6o2Qx6w9rWQpN0sGwcSw5n/view?usp=sharing) |
-|  ViT-S/16     |  224x224 |    DINO      |         -        |      -     | - |
+|  ViT-S/16     |  224x224 |    DINO      |         68.6500        |      88.4180     | [model](https://drive.google.com/file/d/1Xhekw_GGYz2pcV_VpUH-smcGl_XVT19j/view?usp=sharing)/[config](https://drive.google.com/file/d/1R5lN_2hxs3NcWgUw74un_yXYrkMphpvA/view?usp=sharing) |
 
 
 #### Downstream task
