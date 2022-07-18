@@ -56,7 +56,7 @@ This project is to provide remote sensing imagery weight file for better perform
 |     Initialization    | Backbone | Pretraining | Pretraining data |  Dota2.0 |  Inria | weight |
 |:---------------------:|:--------:|:-----------:|:----------------:|:--------:|:------:|:------:|
 | Random Initialization | Resnet50 |      -      |         -        | 0.442    | 65.10  |    -   |
-| Random Initialization | Resnet50 |    Simclr   |  remote sensing  | 0.554    | 88.23  |  [model](https://drive.google.com/file/d/18q47LNTfSbZ506-9ov9wbyTONns33ZuH/view?usp=sharing)/[log](https://drive.google.com/file/d/1OC6lPrwnhG0DKVnZmMpiMXX6gD2asYEr/view?usp=sharing)      |
+| Random Initialization | Resnet50 |    Simclr   |  remote sensing  | 0.554    | 82.23  |  [model](https://drive.google.com/file/d/18q47LNTfSbZ506-9ov9wbyTONns33ZuH/view?usp=sharing)/[log](https://drive.google.com/file/d/1OC6lPrwnhG0DKVnZmMpiMXX6gD2asYEr/view?usp=sharing)      |
 | Supervised Imagenet   | Resnet50 |      -      |         -        | 0.578    | 77.43  |    -   |
 
 ### Reference
