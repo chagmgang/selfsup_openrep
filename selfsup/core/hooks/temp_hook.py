@@ -49,9 +49,6 @@ class DINOTemperatureUpdateHook(Hook):
         runner.model.module.cur_teacher_temp = cur_teacher_temp
         runner.model.module.cur_student_temp = cur_student_temp
 
-        print(runner.model.module.cur_teacher_temp)
-        print(runner.model.module.cur_student_temp)
-
         if self.every_n_iters(runner, self.update_interval):
 
             runner.log_buffer.update({'cur_teacher_temp': cur_teacher_temp})
