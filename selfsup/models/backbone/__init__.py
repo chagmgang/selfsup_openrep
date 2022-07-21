@@ -1,4 +1,6 @@
 from .convnext import BaseConvnext, LargeConvnext, TinyConvnext, XLargeConvnext
+from .dino_three_thing import (ThreeThingBaseDinoViT, ThreeThingSmallDinoViT,
+                               ThreeThingTinyDinoViT)
 from .dino_vit import (BaseDinoViT, GiantDinoViT, GiganticDinoViT, HugeDinoViT,
                        LargeDinoViT, SmallDinoViT, TinyDinoViT)
 from .moco_vit import (BaseMocoV3ViT, GiantMocoV3ViT, GiganticMocoV3ViT,
