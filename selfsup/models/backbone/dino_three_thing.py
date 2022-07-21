@@ -194,7 +194,7 @@ class ParallelBlock(nn.Module):
             mhsa_features.append(f)
 
         for f in mhsa_features:
-            x += f
+            x = torch.add(x, f)
 
         # ffn parallel
         ffn_features = list()
@@ -203,7 +203,7 @@ class ParallelBlock(nn.Module):
             ffn_features.append(f)
 
         for f in ffn_features:
-            x += f
+            x = torch.add(x, f)
 
         return x
 
