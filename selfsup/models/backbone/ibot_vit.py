@@ -60,7 +60,7 @@ class iBOTVisionTransformer(DinoVisionTransformer):
         if ratio:
             maskmap = self.make_maskmap(x.shape[0], x.shape[1], ratio)
             maskmap = maskmap.to(x.device)
-            x[maskmap] = mask_modeling
+            x[maskmap] = mask_modeling.to(x.dtype)
 
         cls_tokens = self.cls_token.expand(B, -1, -1)
         x = torch.cat((cls_tokens, x), dim=1)
